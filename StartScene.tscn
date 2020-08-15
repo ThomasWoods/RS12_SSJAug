@@ -1,0 +1,484 @@
+[gd_scene load_steps=27 format=2]
+
+[ext_resource path="res://PlayerCamera.gd" type="Script" id=1]
+[ext_resource path="res://PlayerBody.gd" type="Script" id=2]
+[ext_resource path="res://KennyTextures/Vector/texture_09.svg" type="Texture" id=3]
+[ext_resource path="res://KennyTextures/Vector/texture_01.svg" type="Texture" id=4]
+[ext_resource path="res://KennyTextures/Vector/texture_07.svg" type="Texture" id=5]
+[ext_resource path="res://KennyTextures/Vector/texture_11.svg" type="Texture" id=6]
+[ext_resource path="res://KennyTextures/Vector/texture_05.svg" type="Texture" id=7]
+[ext_resource path="res://KennyTextures/Vector/texture_04.svg" type="Texture" id=8]
+[ext_resource path="res://KennyTextures/Vector/texture_03.svg" type="Texture" id=9]
+[ext_resource path="res://KennyTextures/Vector/texture_08.svg" type="Texture" id=10]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 1.85972
+height = 3.6995
+
+[sub_resource type="CylinderShape" id=5]
+
+[sub_resource type="SpatialMaterial" id=8]
+albedo_texture = ExtResource( 5 )
+
+[sub_resource type="BoxShape" id=3]
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_texture = ExtResource( 4 )
+
+[sub_resource type="BoxShape" id=4]
+
+[sub_resource type="SpatialMaterial" id=6]
+albedo_texture = ExtResource( 7 )
+uv1_scale = Vector3( 50, 50, 50 )
+
+[sub_resource type="SpatialMaterial" id=9]
+albedo_texture = ExtResource( 3 )
+
+[sub_resource type="SpatialMaterial" id=13]
+albedo_texture = ExtResource( 6 )
+
+[sub_resource type="BoxShape" id=15]
+
+[sub_resource type="SpatialMaterial" id=16]
+params_diffuse_mode = 1
+albedo_texture = ExtResource( 8 )
+uv1_scale = Vector3( 0.507, -0.767, 1 )
+uv1_offset = Vector3( 0.245, 0.008, 0 )
+
+[sub_resource type="SpatialMaterial" id=11]
+albedo_texture = ExtResource( 9 )
+
+[sub_resource type="SpatialMaterial" id=10]
+flags_transparent = true
+params_diffuse_mode = 1
+albedo_color = Color( 1, 1, 1, 0.509804 )
+albedo_texture = ExtResource( 8 )
+uv1_scale = Vector3( 0.507, -0.767, 1 )
+uv1_offset = Vector3( 0.245, 0.008, 0 )
+
+[sub_resource type="SpatialMaterial" id=17]
+albedo_texture = ExtResource( 10 )
+
+[sub_resource type="SpatialMaterial" id=14]
+albedo_texture = ExtResource( 6 )
+
+[sub_resource type="BoxShape" id=12]
+
+[node name="World" type="Spatial"]
+
+[node name="Sun" type="SpotLight" parent="."]
+transform = Transform( 0.707107, 0.541675, -0.454519, 0, 0.642788, 0.766045, 0.707107, -0.541675, 0.454519, -38.9631, 38.5848, 36.4984 )
+light_energy = 3.96
+shadow_enabled = true
+spot_range = 196.1
+spot_angle = 40.0
+
+[node name="Control" type="Control" parent="."]
+margin_right = 256.0
+margin_bottom = 224.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="Control"]
+margin_top = 176.0
+margin_right = 256.0
+margin_bottom = 224.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextBox" type="RichTextLabel" parent="Control/Panel"]
+margin_right = 256.0
+margin_bottom = 48.0
+text = "HELLO!!!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Player" type="Node" parent="."]
+
+[node name="KinematicBody" type="KinematicBody" parent="Player"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 4.701 )
+script = ExtResource( 2 )
+textNode = NodePath("../../../World/Control/Panel/TextBox")
+
+[node name="Camera" type="Camera" parent="Player/KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+fov = 75.0
+script = ExtResource( 1 )
+textNode = NodePath("../../../../World/Control/Panel/TextBox")
+
+[node name="CollisionShape" type="CollisionShape" parent="Player/KinematicBody"]
+transform = Transform( 0.2, 0, 0, 0, -3.25841e-08, -0.2, 0, 0.2, -3.25841e-08, 0, 0, 0 )
+shape = SubResource( 1 )
+
+[node name="Feet" type="Spatial" parent="Player/KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0 )
+
+[node name="StairsFrontBack" type="RayCast" parent="Player/KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, 0.5 )
+enabled = true
+cast_to = Vector3( 0, 0, -1 )
+collision_mask = 2
+
+[node name="StairsLeftRight" type="RayCast" parent="Player/KinematicBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, -0.7, 0 )
+enabled = true
+cast_to = Vector3( 1, 0, 0 )
+collision_mask = 2
+
+[node name="circle" type="Node" parent="."]
+
+[node name="RigidBody" type="RigidBody" parent="circle"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.34807, 1.16442, -6.59004 )
+
+[node name="CollisionShape" type="CollisionShape" parent="circle/RigidBody"]
+transform = Transform( 1, 0, 0, 0, 0.295, 0, 0, 0, 1, 0, 0, 0 )
+shape = SubResource( 5 )
+
+[node name="CSGSphere" type="CSGSphere" parent="circle/RigidBody"]
+material_override = SubResource( 8 )
+
+[node name="CSGTorus" type="CSGTorus" parent="circle/RigidBody/CSGSphere"]
+operation = 1
+inner_radius = 0.598
+outer_radius = 1.342
+
+[node name="pillar" type="Node" parent="."]
+
+[node name="RigidBody" type="RigidBody" parent="pillar"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.221, 1.809, -8.82136 )
+
+[node name="CollisionShape" type="CollisionShape" parent="pillar/RigidBody"]
+transform = Transform( 0.241, 0, 0, 0, 1.673, 0, 0, 0, 0.989, 0, 0, 0 )
+shape = SubResource( 3 )
+
+[node name="CSGBox2" type="CSGBox" parent="pillar/RigidBody/CollisionShape"]
+material_override = SubResource( 7 )
+
+[node name="Floor" type="Node" parent="."]
+
+[node name="KinematicBody" type="KinematicBody" parent="Floor"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Floor/KinematicBody"]
+transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0 )
+shape = SubResource( 4 )
+
+[node name="FloorShape" type="CSGBox" parent="Floor/KinematicBody"]
+material_override = SubResource( 6 )
+width = 100.0
+depth = 100.0
+
+[node name="House" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -2 )
+
+[node name="House Exterior" type="CSGPolygon" parent="House"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.659994, 0 )
+use_collision = true
+polygon = PoolVector2Array( -5, -1, 5, -1, 5, 5, 0, 7.5, -5, 5 )
+depth = 10.0
+material = SubResource( 9 )
+
+[node name="Step" type="CSGBox" parent="House/House Exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.207103 )
+width = 2.25
+height = 0.15
+depth = 0.5
+material = SubResource( 13 )
+
+[node name="StaticBody" type="StaticBody" parent="House/House Exterior/Step"]
+transform = Transform( 1, 0, 0, 0, 0.22989, -0.257007, 0, 0.0615989, 0.959164, 0, -0.377449, 0.766112 )
+collision_layer = 3
+
+[node name="CollisionShape" type="CollisionShape" parent="House/House Exterior/Step/StaticBody"]
+shape = SubResource( 15 )
+
+[node name="Step2" type="CSGBox" parent="House/House Exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44, 0.457103 )
+width = 2.25
+height = 0.15
+depth = 1.0
+material = SubResource( 13 )
+
+[node name="Step3" type="CSGBox" parent="House/House Exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.58, 0.707103 )
+width = 2.25
+height = 0.15
+depth = 1.5
+material = SubResource( 13 )
+
+[node name="Entrance" type="CSGBox" parent="House/House Exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -0.05 )
+operation = 2
+height = 3.0
+depth = 0.3
+material = SubResource( 16 )
+
+[node name="FrontRoom" type="CSGBox" parent="House/House Exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.452, -2.16516 )
+operation = 2
+calculate_tangents = false
+width = 9.75
+height = 3.5
+depth = 4.0
+material = SubResource( 11 )
+
+[node name="SpotLight" type="SpotLight" parent="House/House Exterior/FrontRoom"]
+transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 2.489, 1.729, 0 )
+light_color = Color( 0.74902, 0.972549, 1, 1 )
+light_energy = 6.68
+shadow_enabled = true
+
+[node name="Window1Cut" type="CSGBox" parent="House/House Exterior/FrontRoom"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.091, -0.166087, 2.11516 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.3
+material = SubResource( 10 )
+
+[node name="Window1Pane" type="CSGBox" parent="House/House Exterior/FrontRoom"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.091, -0.166087, 2.11516 )
+width = 1.4
+height = 1.4
+depth = 0.15
+material = SubResource( 10 )
+
+[node name="Window2Cut" type="CSGBox" parent="House/House Exterior/FrontRoom"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 5.00818, -0.166087, 0.374736 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.3
+material = SubResource( 10 )
+
+[node name="Window2Pane" type="CSGBox" parent="House/House Exterior/FrontRoom"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 5.00818, -0.166087, 0.374736 )
+width = 1.4
+height = 1.4
+depth = 0.15
+material = SubResource( 10 )
+
+[node name="Room1-Room2" type="CSGBox" parent="House/House Exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.72642, 1.21269, -4.17157 )
+operation = 2
+width = 1.75
+height = 3.0
+depth = 0.3
+material = SubResource( 17 )
+
+[node name="Backroom" type="CSGBox" parent="House/House Exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.452, -6.79593 )
+operation = 2
+calculate_tangents = false
+width = 9.75
+height = 3.5
+depth = 5.0
+material = SubResource( 11 )
+
+[node name="SpotLight" type="SpotLight" parent="House/House Exterior/Backroom"]
+transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 2.489, 1.729, 0 )
+light_color = Color( 0.74902, 0.972549, 1, 1 )
+light_energy = 6.68
+shadow_enabled = true
+
+[node name="Window2Cut2" type="CSGBox" parent="House/House Exterior/Backroom"]
+transform = Transform( -3.25841e-07, 0, 1, 0, 1, 0, -2, 0, -1.62921e-07, 5.00818, -0.166087, 0.00741196 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.3
+material = SubResource( 10 )
+
+[node name="Window2Pane2" type="CSGBox" parent="House/House Exterior/Backroom"]
+transform = Transform( -3.25841e-07, 0, 1, 0, 1, 0, -2, 0, -1.62921e-07, 5.00818, -0.166087, 0.00741196 )
+width = 1.4
+height = 1.4
+depth = 0.15
+material = SubResource( 10 )
+
+[node name="Parts" type="Node" parent="House"]
+
+[node name="StairCase" type="Spatial" parent="House/Parts"]
+transform = Transform( -0.00834954, 0, 0.999918, 0, 0.75, 0, -0.649946, 0, -0.0128454, -1.60317, 0.0339183, -0.478868 )
+
+[node name="Stair1" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 0, 0, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair1"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair1/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Stair2" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 0.5, 0.375, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair2"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair2/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Stair3" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 1, 0.75, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair3"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair3/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Stair4" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 1.5, 1.125, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair4"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair4/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Stair5" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 2, 1.5, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair5"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair5/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Stair6" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 2.5, 1.875, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair6"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair6/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Stair7" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 3, 2.25, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair7"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair7/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Stair8" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 3.5, 2.625, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair8"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair8/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Stair9" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 4, 3, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair9"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair9/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Stair10" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 4.5, 3.375, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair10"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair10/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Stair11" type="CSGPolygon" parent="House/Parts/StairCase"]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 1, 5, 3.75, 0 )
+use_collision = true
+collision_layer = 3
+polygon = PoolVector2Array( 0, 0, 0, 0.75, 1, 0.75 )
+material = SubResource( 14 )
+
+[node name="RigidBody" type="RigidBody" parent="House/Parts/StairCase/Stair11"]
+transform = Transform( 0.374767, -0.353553, 0, 0.374767, 0.353553, 0, 0, 0, 0.5, -0.02, 0.023, -0.5 )
+collision_layer = 3
+mode = 1
+
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/StairCase/Stair11/RigidBody"]
+shape = SubResource( 12 )
+
+[node name="Yard" type="Node" parent="House"]
+
+[node name="CSGSphere" type="CSGSphere" parent="House/Yard"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.44795, 0.5, 1.44905 )
+use_collision = true
+radius = 0.5
+
+[node name="CSGBox" type="CSGBox" parent="House/Yard"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8.51666, 0.500611, 3.48675 )
+use_collision = true
+width = 1.0
+height = 1.0
+depth = 1.0
