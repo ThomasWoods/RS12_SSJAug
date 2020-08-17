@@ -22,7 +22,7 @@ func _ready():
 	connect("body_entered", self, "on_player_entered")
 
 func on_player_entered(var body:Node):
-	if body.get_owner().has_method("run_event"):
+	if body and body.get_owner() and body.get_owner().has_method("run_event"):
 		body.get_owner().call("run_event", self)
 
 func get_next_page():
