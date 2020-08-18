@@ -13,6 +13,7 @@ func m(var s): ui.set_text(s)
 var reach_cast:RayCast
 var holding_item
 var item_held
+var disabled_colliders = []
 
 var in_event:bool = false
 var last_event:Event = null
@@ -20,19 +21,15 @@ var last_event:Event = null
 signal start_event
 signal end_event
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	player_body=$PlayerBody
 	player_cam=player_body.get_node("Camera")
 	reach_cast=player_cam.get_node("Reach")
 	ui = get_tree().get_root().find_node("UI",true,false)
 	player_cam.connect("reset_camera_complete", player_body, "clear_camera_lock")
-	Input.warp_mouse_position(OS.get_real_window_size()/2)
+	player_cam.connect("lock_camera", ui, "show_camera_icon")
+	player_cam.connect("reset_camera_complete", ui, "hide_camera_icon")
 	
 
 func _process(delta):
@@ -42,15 +39,16 @@ func _process(delta):
 				(last_event.timer>0 and last_event.elapsed_time>last_event.timer)):
 			last_event.elapsed_time=0
 			process_event(last_event)
-	else:
-		if holding_item and Input.is_action_just_pressed("ui_accept"):
-			drop_item()
-		elif(reach_cast.is_colliding()):
-			var reach_obj:Node = reach_cast.get_collider()
-			if reach_obj!=null:
-				m(reach_obj.name)
-				if (Input.is_action_just_pressed("ui_accept")):
-					pick_up_item(reach_obj)
+		return
+	if holding_item and Input.is_action_just_pressed("ui_accept"):
+		drop_item()
+	elif not holding_item and reach_cast.is_colliding():
+		reach_cast
+		var reach_obj:Node = reach_cast.get_collider()
+		if reach_obj!=null:
+			m(reach_obj.name)
+			if (Input.is_action_just_pressed("ui_accept")):
+				pick_up_item(reach_obj)
 
 func run_event(var event:Event):
 	if in_event:
@@ -88,15 +86,19 @@ func end_event():
 func pick_up_item(var item:Node):
 	holding_item=true
 	item_held=item
+	#disable_colliders(item)
 	decouple_obj(item)
 	couple_obj(item,player_cam)
+	m("Picked up "+item.get("name"))
 	pass
 	
 func drop_item():
 	decouple_obj(item_held)
 	get_tree().get_root().add_child(item_held)
+	#reenable_colliders()
 	holding_item=false
 	item_held=null
+	m("")
 
 
 func decouple_obj(var item:Spatial):
@@ -108,9 +110,28 @@ func decouple_obj(var item:Spatial):
 	if parent==null: return
 	item.transform.origin = o
 	item.transform.basis = b
+	var rigid = item as RigidBody
+	if rigid: 
+		rigid.angular_velocity=Vector3.ZERO
+		rigid.linear_velocity=Vector3.ZERO
 
 func couple_obj(var item:Spatial, var new_parent:Spatial):
 	if item==null or new_parent == null: return
 	new_parent.add_child(item)
-	item.transform.origin=Vector3(0,0,-2)
+	item.transform.origin=Vector3(0,0,-0.75)
 	item.transform.basis=Basis(Vector3(0,1,0),0)
+
+
+func disable_colliders(var node:RigidBody):
+	for child in node.get_children():
+		if child as CollisionShape:
+			var c = child as CollisionShape
+			disabled_colliders.append(c)	
+			c.disabled=true
+			
+func reenable_colliders():
+	for child in disabled_colliders:
+		if child as CollisionShape:
+			var c = child as CollisionShape
+			c.disabled=false
+	disabled_colliders=[]

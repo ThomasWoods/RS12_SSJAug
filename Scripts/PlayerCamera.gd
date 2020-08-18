@@ -12,6 +12,9 @@ var ySensitivity=0.01
 var yJoySens=0.05
 var y_deadzone=0.1
 
+var y_min=-1.4
+var y_max=1.3
+
 signal lock_camera
 signal reset_camera_complete
 
@@ -38,8 +41,8 @@ func _input(event):
 	#if event is InputEventJoypadMotion and free_look:
 
 func update_facing():
-	if(y<-0.9): y=-0.9
-	if(y>0.9): y=0.9
+	if(y<y_min): y=y_min
+	if(y>y_max): y=y_max
 	var b = Basis(Vector3(1,0,0),y)
 	transform.basis = b
 
@@ -58,11 +61,11 @@ func set_target(var t):
 		look_at(target.translation,Vector3.UP)
 		var target_basis = transform.basis
 		update_facing();
-		
 		tween.interpolate_property(self, "transform:basis",
 			transform.basis, target_basis, 1,
 			Tween.TRANS_LINEAR, Tween.EASE_IN)
 		tween.start()
+		emit_signal("lock_camera")
 
 func reset_camera():
 	target=null
