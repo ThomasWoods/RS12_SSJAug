@@ -9,6 +9,7 @@ var player_body:PlayerBody
 var player_cam:PlayerCamera
 var ui:UI
 func m(var s): ui.set_text(s)
+var active_camera:Camera
 
 var reach_cast:RayCast
 var holding_item
@@ -30,17 +31,19 @@ func _ready():
 	player_cam.connect("reset_camera_complete", player_body, "clear_camera_lock")
 	player_cam.connect("lock_camera", ui, "show_camera_icon")
 	player_cam.connect("reset_camera_complete", ui, "hide_camera_icon")
+	active_camera=player_cam
 	
 
 func _process(delta):
+	if Input.is_action_just_pressed("ui_home"):
+		switch_camera()
 	if in_event: 
 		last_event.elapsed_time+=delta
 		if (Input.is_action_just_pressed("ui_accept") or 
 				(last_event.timer>0 and last_event.elapsed_time>last_event.timer)):
 			last_event.elapsed_time=0
 			process_event(last_event)
-		return
-	if holding_item and Input.is_action_just_pressed("ui_accept"):
+	elif holding_item and Input.is_action_just_pressed("ui_accept"):
 		drop_item()
 	elif not holding_item and reach_cast.is_colliding():
 		reach_cast
@@ -48,7 +51,12 @@ func _process(delta):
 		if reach_obj!=null:
 			m(reach_obj.name)
 			if (Input.is_action_just_pressed("ui_accept")):
-				pick_up_item(reach_obj)
+				if(reach_obj.has_method("interact")): 
+					reach_obj.call("interact")
+				else:
+					pick_up_item(reach_obj)
+	elif not holding_item and item_held!=null and Input.is_action_just_pressed("ui_end"):
+		pick_up_item(item_held)
 
 func run_event(var event:Event):
 	if in_event:
@@ -86,7 +94,7 @@ func end_event():
 func pick_up_item(var item:Node):
 	holding_item=true
 	item_held=item
-	#disable_colliders(item)
+	disable_colliders(item)
 	decouple_obj(item)
 	couple_obj(item,player_cam)
 	m("Picked up "+item.get("name"))
@@ -95,9 +103,8 @@ func pick_up_item(var item:Node):
 func drop_item():
 	decouple_obj(item_held)
 	get_tree().get_root().add_child(item_held)
-	#reenable_colliders()
+	reenable_colliders()
 	holding_item=false
-	item_held=null
 	m("")
 
 
@@ -111,9 +118,14 @@ func decouple_obj(var item:Spatial):
 	item.transform.origin = o
 	item.transform.basis = b
 	var rigid = item as RigidBody
+	var par_rigid = parent as RigidBody
 	if rigid: 
-		rigid.angular_velocity=Vector3.ZERO
-		rigid.linear_velocity=Vector3.ZERO
+		if par_rigid:
+			rigid.angular_velocity=par_rigid.angular_velocity
+			rigid.linear_velocity=par_rigid.linear_velocity
+		else:
+			rigid.angular_velocity=Vector3.ZERO
+			rigid.linear_velocity=Vector3.ZERO
 
 func couple_obj(var item:Spatial, var new_parent:Spatial):
 	if item==null or new_parent == null: return
@@ -123,6 +135,7 @@ func couple_obj(var item:Spatial, var new_parent:Spatial):
 
 
 func disable_colliders(var node:RigidBody):
+	node.set_mode(RigidBody.MODE_KINEMATIC)
 	for child in node.get_children():
 		if child as CollisionShape:
 			var c = child as CollisionShape
@@ -130,8 +143,17 @@ func disable_colliders(var node:RigidBody):
 			c.disabled=true
 			
 func reenable_colliders():
+	item_held.set_mode(RigidBody.MODE_RIGID)
 	for child in disabled_colliders:
 		if child as CollisionShape:
 			var c = child as CollisionShape
 			c.disabled=false
 	disabled_colliders=[]
+
+
+func switch_camera():
+	if active_camera==player_body.get_node("Camera"): 
+		active_camera=player_body.get_node("Camera2")
+	else:
+		active_camera=player_body.get_node("Camera")
+	active_camera.make_current()

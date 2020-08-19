@@ -17,7 +17,8 @@ var x_deadzone=0.1
 var BaseMoveSpeed:float = 0.05
 var running:bool = false
 var runMult:float = 2
-var fallSpeed:float = -0.1
+var fallAccel:float = -0.01
+var fallSpeed:float = 0
 
 func CurrentMoveSpeed():
 	if !running: return BaseMoveSpeed 
@@ -37,7 +38,7 @@ func _input(event):
 			update_facing()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 	if not can_move: return
 	var moveVector:Vector3
 	var strafe:Vector3
@@ -59,7 +60,12 @@ func _process(delta):
 	moveVector=moveVector.normalized()*CurrentMoveSpeed()
 	move_and_collide(moveVector)
 	if(!$StairsFrontBack.is_colliding() && !$StairsLeftRight.is_colliding()):
-		move_and_collide(Vector3(0,fallSpeed,0))
+		var r = move_and_collide(Vector3(0,fallAccel,0),true,true,true)
+		if not r :
+			fallSpeed+=fallAccel
+			move_and_collide(Vector3(0,fallSpeed,0))
+		else:
+			fallSpeed=0
 		
 	if not camera_lock:
 		var joyDelta:=Vector2(Input.get_joy_axis(0,2),Input.get_joy_axis(0,3))

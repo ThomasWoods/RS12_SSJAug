@@ -58,6 +58,7 @@ func getCameraMode():
 func set_target(var t):
 	target = t as Spatial
 	if target!=null:
+		emit_signal("lock_camera")
 		look_at(target.translation,Vector3.UP)
 		var target_basis = transform.basis
 		update_facing();
@@ -65,7 +66,6 @@ func set_target(var t):
 			transform.basis, target_basis, 1,
 			Tween.TRANS_LINEAR, Tween.EASE_IN)
 		tween.start()
-		emit_signal("lock_camera")
 
 func reset_camera():
 	target=null
