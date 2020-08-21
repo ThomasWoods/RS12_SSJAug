@@ -139,9 +139,9 @@ func disable_colliders(var node:RigidBody):
 	for child in node.get_children():
 		if child as CollisionShape:
 			var c = child as CollisionShape
-			disabled_colliders.append(c)	
+			disabled_colliders.append(c)
 			c.disabled=true
-			
+
 func reenable_colliders():
 	item_held.set_mode(RigidBody.MODE_RIGID)
 	for child in disabled_colliders:

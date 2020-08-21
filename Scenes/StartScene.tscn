@@ -1,11 +1,11 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Scripts/TimeKeeper.gd" type="Script" id=1]
 [ext_resource path="res://Materials/Window.tres" type="Material" id=2]
 [ext_resource path="res://Scenes/UI.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Materials/checkerboard.tres" type="Material" id=4]
 [ext_resource path="res://KennyTextures/Vector/texture_04.svg" type="Texture" id=5]
-[ext_resource path="res://KennyTextures/Vector/texture_03.svg" type="Texture" id=6]
+[ext_resource path="res://Materials/room interior.tres" type="Material" id=6]
 [ext_resource path="res://KennyTextures/Vector/texture_08.svg" type="Texture" id=7]
 [ext_resource path="res://KennyTextures/Vector/texture_09.svg" type="Texture" id=8]
 [ext_resource path="res://KennyTextures/Vector/texture_07.svg" type="Texture" id=9]
@@ -16,8 +16,13 @@
 [ext_resource path="res://KennyTextures/Vector/texture_01.svg" type="Texture" id=14]
 [ext_resource path="res://Scenes/Prefabs/StairCase.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/Prefabs/Door.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Materials/house exterior.tres" type="Material" id=17]
+[ext_resource path="res://Scenes/Prefabs/Window.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Materials/metal.tres" type="Material" id=19]
+[ext_resource path="res://Materials/black metal.tres" type="Material" id=20]
 
 [sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
 flags_unshaded = true
 albedo_color = Color( 1, 1, 0.85098, 1 )
 
@@ -49,33 +54,20 @@ uv1_scale = Vector3( 50, 10, 1 )
 albedo_texture = ExtResource( 7 )
 uv1_scale = Vector3( 3, 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=9]
-albedo_texture = ExtResource( 8 )
-
-[sub_resource type="SpatialMaterial" id=10]
-albedo_texture = ExtResource( 10 )
-
-[sub_resource type="BoxShape" id=11]
-
 [sub_resource type="SpatialMaterial" id=12]
 params_diffuse_mode = 1
 albedo_texture = ExtResource( 5 )
 uv1_scale = Vector3( 0.507, -0.767, 1 )
 uv1_offset = Vector3( 0.245, 0.008, 0 )
 
-[sub_resource type="SpatialMaterial" id=13]
-albedo_texture = ExtResource( 6 )
+[sub_resource type="SpatialMaterial" id=10]
+albedo_texture = ExtResource( 10 )
 
-[sub_resource type="SpatialMaterial" id=14]
-flags_transparent = true
-params_diffuse_mode = 1
-albedo_color = Color( 1, 1, 1, 0.509804 )
-albedo_texture = ExtResource( 5 )
-uv1_scale = Vector3( 0.507, -0.767, 1 )
-uv1_offset = Vector3( 0.245, 0.008, 0 )
+[sub_resource type="BoxShape" id=11]
 
-[sub_resource type="SpatialMaterial" id=15]
-albedo_texture = ExtResource( 7 )
+[sub_resource type="SpatialMaterial" id=25]
+albedo_color = Color( 1, 0.992157, 0.894118, 1 )
+metallic = 0.75
 
 [sub_resource type="SpatialMaterial" id=16]
 albedo_color = Color( 0.0352941, 0.27451, 0.0196078, 1 )
@@ -113,10 +105,29 @@ clearcoat_gloss = 0.5
 [node name="TimeKeeper" type="Node" parent="."]
 script = ExtResource( 1 )
 ui_path = NodePath("../UI")
-sun_path = NodePath("../Sun")
+sun_path = NodePath("Sun")
 
-[node name="Sun" type="SpotLight" parent="."]
+[node name="DirectionalLight" type="DirectionalLight" parent="TimeKeeper"]
+transform = Transform( 0.258819, 0.683013, -0.683013, 0, 0.707107, 0.707107, 0.965926, -0.183013, 0.183013, 0, 9.31271, 0 )
+light_energy = 10.0
+light_specular = 0.68
+shadow_enabled = true
+directional_shadow_mode = 1
+directional_shadow_split_1 = 0.2
+directional_shadow_split_2 = 0.3
+directional_shadow_normal_bias = 0.0
+directional_shadow_depth_range = 1
+
+[node name="CSGSphere" type="CSGSphere" parent="TimeKeeper"]
 transform = Transform( 0.707107, 0.541675, -0.45452, 0, 0.642788, 0.766044, 0.707107, -0.541675, 0.45452, -50, 50, 40 )
+cast_shadow = 0
+radius = 1.5
+smooth_faces = false
+material = SubResource( 1 )
+
+[node name="Sun" type="SpotLight" parent="TimeKeeper"]
+transform = Transform( 0.707107, 0.541675, -0.45452, 0, 0.642788, 0.766044, 0.707107, -0.541675, 0.45452, -50, 50, 40 )
+visible = false
 light_energy = 9.47
 light_indirect_energy = 16.0
 light_specular = 0.63
@@ -124,25 +135,28 @@ shadow_enabled = true
 spot_range = 256.0
 spot_angle = 40.0
 
-[node name="CSGSphere" type="CSGSphere" parent="Sun"]
-cast_shadow = 0
-radius = 1.5
-smooth_faces = false
-material = SubResource( 1 )
+[node name="OmniLight" type="OmniLight" parent="TimeKeeper"]
+transform = Transform( 0.707107, 0.541675, -0.45452, 0, 0.642788, 0.766044, 0.707107, -0.541675, 0.45452, -50, 50, 40 )
+visible = false
+light_energy = 8.6
+light_indirect_energy = 2.38
+light_specular = 0.54
+shadow_enabled = true
+shadow_bias = 0.1
+omni_range = 179.0
+omni_attenuation = 1.18921
+omni_shadow_detail = 0
 
 [node name="Ground" type="Node" parent="."]
 
 [node name="platform" type="KinematicBody" parent="Ground"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
-visible = false
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -22.328, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="Ground/platform"]
 transform = Transform( 50, 0, 0, 0, 1, 0, 0, 0, 50, 0, 0, 0 )
-visible = false
 shape = SubResource( 2 )
 
 [node name="FloorShape" type="CSGBox" parent="Ground/platform"]
-visible = false
 material_override = SubResource( 3 )
 width = 100.0
 depth = 100.0
@@ -204,8 +218,14 @@ depth = 5.0
 smooth_faces = true
 material = SubResource( 8 )
 
+[node name="house cutout" type="CSGBox" parent="Ground/CSGCombiner"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.97172, 1.18353, -7.73752 )
+operation = 2
+width = 11.15
+depth = 11.15
+
 [node name="Player" parent="." instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.14108, 1.70147 )
+transform = Transform( 0.60414, 0, 0.796878, 0, 1, 0, -0.796878, 0, 0.60414, -2.82236, 1.14108, 10.6209 )
 
 [node name="House" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -2 )
@@ -213,142 +233,493 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -2 )
 [node name="House Exterior" type="CSGPolygon" parent="House"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25044, 0 )
 use_collision = true
-polygon = PoolVector2Array( -5, -1, 5, -1, 5, 5, 0, 7.5, -5, 5 )
-depth = 10.0
-material = SubResource( 9 )
+polygon = PoolVector2Array( -5.575, -1, 5.575, -1, 5.575, 5.453, 0, 10, -5.575, 5 )
+depth = 11.5
+material = ExtResource( 17 )
 
-[node name="Step" type="CSGBox" parent="House/House Exterior"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.207103 )
+[node name="Entrance" type="CSGBox" parent="House/House Exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.775879, -0.0994651 )
+operation = 2
+width = 1.4
+height = 2.1
+depth = 0.5
+material = SubResource( 12 )
+
+[node name="Rooms" type="CSGCombiner" parent="House/House Exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.19209e-07, 0 )
+operation = 2
+
+[node name="FrontRoom" type="CSGBox" parent="House/House Exterior/Rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -2.52763 )
+snap = 0.0001
+calculate_tangents = false
+width = 10.9
+height = 3.5
+depth = 4.75
+material = ExtResource( 6 )
+
+[node name="greatroom cutout" type="CSGBox" parent="House/House Exterior/Rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.94387, 1.452, -5.5467 )
+snap = 0.0001
+calculate_tangents = false
+width = 5.0
+height = 3.5
+depth = 1.35
+material = ExtResource( 6 )
+
+[node name="backroom" type="CSGBox" parent="House/House Exterior/Rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12341, 1.45, -8.20348 )
+width = 4.6
+height = 3.5
+depth = 6.25
+material = ExtResource( 6 )
+
+[node name="bed_door" type="CSGBox" parent="House/House Exterior/Rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.21154, 0.794871, -6.25057 )
+width = 1.4
+height = 2.1
+depth = 0.25
+material = ExtResource( 6 )
+
+[node name="Bedroom" type="CSGBox" parent="House/House Exterior/Rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.37277, 1.45, -8.9165 )
+width = 6.1
+height = 3.5
+depth = 5.1
+material = ExtResource( 6 )
+
+[node name="hall" type="CSGBox" parent="House/House Exterior/Rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79024, 0.952, -4.978 )
+width = 1.6
+height = 2.5
+depth = 0.25
+material = ExtResource( 6 )
+
+[node name="upstairs" type="CSGBox" parent="House/House Exterior/Rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.161, 5.2, -5.454 )
+calculate_tangents = false
+width = 5.515
+height = 3.5
+depth = 10.191
+material = ExtResource( 6 )
+
+[node name="upstairs cutout" type="CSGBox" parent="House/House Exterior/Rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34685, 3.14346, -7.38058 )
+calculate_tangents = false
+width = 1.0
+height = 1.0
+depth = 3.5
+material = ExtResource( 6 )
+
+[node name="WindowCuts" type="CSGCombiner" parent="House/House Exterior"]
+operation = 2
+
+[node name="Window1" type="CSGBox" parent="House/House Exterior/WindowCuts"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.00058, 1.3187, -0.0840058 )
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="Window2" type="CSGBox" parent="House/House Exterior/WindowCuts"]
+transform = Transform( -1.95505e-07, 0, 1, 0, 0.8, 0, -1.2, 0, -1.62921e-07, 5.53843, 1.64771, -1.32731 )
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="Window3" type="CSGBox" parent="House/House Exterior/WindowCuts"]
+transform = Transform( -3.25841e-07, 0, 1, 0, 1, 0, -2, 0, -1.62921e-07, 5.43749, 1.28591, -8.17845 )
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="Window4" type="CSGBox" parent="House/House Exterior/WindowCuts"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.56466, 1.28591, -0.0840058 )
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="Window5" type="CSGBox" parent="House/House Exterior/WindowCuts"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49777, 1.28591, -1.73457 )
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="Window6" type="CSGBox" parent="House/House Exterior/WindowCuts"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49777, 1.28591, -9.1874 )
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="Windows" type="Spatial" parent="House"]
+
+[node name="Window1" parent="House/Windows" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.00109, 2.55846, -0.0878232 )
+
+[node name="Window2" parent="House/Windows" instance=ExtResource( 18 )]
+transform = Transform( -1.95505e-07, 0, 1, 0, 0.8, 0, -1.2, 0, -1.62921e-07, 5.48243, 2.90021, -1.32619 )
+
+[node name="Window3" parent="House/Windows" instance=ExtResource( 18 )]
+transform = Transform( -3.25841e-07, 0, 1, 0, 1, 0, -2, 0, -1.62921e-07, 5.48643, 2.53354, -8.18278 )
+
+[node name="Window4" parent="House/Windows" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.56415, 2.52568, -0.0878232 )
+
+[node name="Window5" parent="House/Windows" instance=ExtResource( 18 )]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49726, 2.52568, -1.73839 )
+
+[node name="Window6" parent="House/Windows" instance=ExtResource( 18 )]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49726, 2.52568, -9.19122 )
+
+[node name="Parts" type="Spatial" parent="House"]
+
+[node name="StairCase" parent="House/Parts" instance=ExtResource( 15 )]
+transform = Transform( -1.32943e-07, 0, -1, 0, 0.91, 0, 0.816, 0, -1.62921e-07, 0.858624, 0.940933, -10.0121 )
+
+[node name="Step" type="CSGBox" parent="House/Parts"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.821744, 2.79892 )
+use_collision = true
 width = 2.25
 height = 0.15
 depth = 0.5
 material = SubResource( 10 )
 
-[node name="StaticBody" type="StaticBody" parent="House/House Exterior/Step"]
+[node name="StaticBody" type="StaticBody" parent="House/Parts/Step"]
 transform = Transform( 1, 0, 0, 0, 0.22989, -0.257007, 0, 0.0615989, 0.959164, 0, -0.377449, 0.766112 )
 collision_layer = 3
 
-[node name="CollisionShape" type="CollisionShape" parent="House/House Exterior/Step/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="House/Parts/Step/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, -3.72529e-09, 1, 0, 0, 0 )
 shape = SubResource( 11 )
+disabled = true
 
-[node name="Step2" type="CSGBox" parent="House/House Exterior"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.44, 0.457103 )
+[node name="Step2" type="CSGBox" parent="House/Parts"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.681744, 3.04892 )
+use_collision = true
 width = 2.25
 height = 0.15
 depth = 1.0
 material = SubResource( 10 )
 
-[node name="Step3" type="CSGBox" parent="House/House Exterior"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.58, 0.707103 )
-width = 2.25
-height = 0.15
-depth = 1.5
+[node name="Step3" type="CSGBox" parent="House/Parts"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.129537, 0.797659, 1.26803 )
+use_collision = true
+width = 4.0
+height = 0.35
+depth = 2.75
 material = SubResource( 10 )
 
-[node name="Entrance" type="CSGBox" parent="House/House Exterior"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, -0.05 )
-operation = 2
-height = 3.0
-depth = 0.3
-material = SubResource( 12 )
+[node name="Door_front" parent="House/Parts" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.702999, 2.05762, -0.159389 )
 
-[node name="FrontRoom" type="CSGBox" parent="House/House Exterior"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.452, -2.16516 )
-operation = 2
-calculate_tangents = false
-width = 9.75
+[node name="Door_Bed" parent="House/Parts" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, 1, -4.90333, 2.05762, -6.36265 )
+open_angle = -90.0
+
+[node name="porch" type="CSGPolygon" parent="House/Parts"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 3.5, 2.45999 )
+use_collision = true
+polygon = PoolVector2Array( -2, 0, 0, 1, 2, 0 )
+depth = 2.5
+material = ExtResource( 17 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="House/Parts/porch"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, -1.7, -0.15 )
+radius = 0.1
 height = 3.5
-depth = 4.0
-material = SubResource( 13 )
+material = ExtResource( 17 )
 
-[node name="SpotLight" type="SpotLight" parent="House/House Exterior/FrontRoom"]
-transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 2.489, 1.729, 0 )
-light_color = Color( 0.74902, 0.972549, 1, 1 )
-light_energy = 6.68
-shadow_enabled = true
+[node name="CSGCylinder2" type="CSGCylinder" parent="House/Parts/porch"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, -1.7, -0.15 )
+radius = 0.1
+height = 3.5
+material = ExtResource( 17 )
 
-[node name="Window1Cut" type="CSGBox" parent="House/House Exterior/FrontRoom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.091, -0.166087, 2.11516 )
+[node name="CSGCylinder3" type="CSGCylinder" parent="House/Parts/porch"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.27047 )
 operation = 2
-width = 1.4
-height = 1.4
-depth = 0.3
-material = SubResource( 14 )
+radius = 0.2
+height = 0.25
+material = SubResource( 25 )
 
-[node name="Window1Pane" type="CSGBox" parent="House/House Exterior/FrontRoom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.091, -0.166087, 2.11516 )
-width = 1.4
-height = 1.4
-depth = 0.15
-material = SubResource( 14 )
+[node name="Stuff" type="Spatial" parent="House"]
 
-[node name="Window2Cut" type="CSGBox" parent="House/House Exterior/FrontRoom"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 5.00818, -0.166087, 0.374736 )
+[node name="fridge" type="CSGBox" parent="House/Stuff"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 3.60351, 1.99809, -4.51167 )
+use_collision = true
+width = 0.75
+depth = 1.5
+material = ExtResource( 19 )
+
+[node name="LeftDoor" type="CSGBox" parent="House/Stuff/fridge"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.447441, 0, -0.375 )
+width = 0.1
+depth = 0.74
+material = ExtResource( 19 )
+
+[node name="CSGTorus" type="CSGTorus" parent="House/Stuff/fridge/LeftDoor"]
+transform = Transform( 7.00208e-14, 1.62921e-07, 1, 2.638, -1.62921e-07, 0, 4.29785e-07, 1, -1.62921e-07, -0.0550361, 0, 0.304941 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/Stuff/fridge/LeftDoor/CSGTorus"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111994, 0, 0.174598 )
 operation = 2
-width = 1.4
-height = 1.4
-depth = 0.3
-material = SubResource( 14 )
+width = 0.4
+height = 0.196
+depth = 0.334
 
-[node name="Window2Pane" type="CSGBox" parent="House/House Exterior/FrontRoom"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 5.00818, -0.166087, 0.374736 )
-width = 1.4
-height = 1.4
-depth = 0.15
-material = SubResource( 14 )
+[node name="LeftDoor2" type="CSGBox" parent="House/Stuff/fridge"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.447441, 0, 0.375 )
+width = 0.1
+depth = 0.74
+material = ExtResource( 19 )
 
-[node name="Room1-Room2" type="CSGBox" parent="House/House Exterior"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.72642, 1.21269, -4.17157 )
+[node name="CSGTorus2" type="CSGTorus" parent="House/Stuff/fridge/LeftDoor2"]
+transform = Transform( 7.00208e-14, 1.62921e-07, 1, 2.638, -1.62921e-07, 0, 4.29785e-07, 1, -1.62921e-07, -0.0550361, 0, -0.260101 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/Stuff/fridge/LeftDoor2/CSGTorus2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111994, 0, 0.174598 )
 operation = 2
+width = 0.4
+height = 0.196
+depth = 0.334
+
+[node name="Kitchen Counter" type="CSGBox" parent="House/Stuff"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 4.88155, 1.45846, -1.0865 )
+use_collision = true
 width = 1.75
-height = 3.0
-depth = 0.3
-material = SubResource( 15 )
+height = 1.0
+depth = 1.0
+material = ExtResource( 4 )
 
-[node name="Backroom" type="CSGBox" parent="House/House Exterior"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.452, -6.79593 )
+[node name="sink" type="CSGBox" parent="House/Stuff/Kitchen Counter"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0931664, 0.239475, -2.86102e-06 )
 operation = 2
-calculate_tangents = false
-width = 9.75
-height = 3.5
-depth = 5.0
-material = SubResource( 13 )
+width = 0.75
+height = 0.75
+depth = 0.5
 
-[node name="SpotLight" type="SpotLight" parent="House/House Exterior/Backroom"]
-transform = Transform( 1, 0, 0, 0, 1.19249e-08, 1, 0, -1, 1.19249e-08, 2.489, 1.729, 0 )
-light_color = Color( 0.74902, 0.972549, 1, 1 )
-light_energy = 6.68
+[node name="faucet" type="CSGTorus" parent="House/Stuff/Kitchen Counter"]
+transform = Transform( -2.9733e-07, -1, 0, 1.79727, -1.60446e-07, -0.173648, 0.316908, -2.82909e-08, 0.984808, 0.100873, 0.602587, -0.171736 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+ring_sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/Stuff/Kitchen Counter/faucet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163665, 9.53674e-07, 0.127582 )
+operation = 2
+width = 0.4
+height = 0.1
+depth = 0.4
+
+[node name="CSGCylinder" type="CSGCylinder" parent="House/Stuff/Kitchen Counter"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.0527463, 0.507313, -0.289711 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="CSGCylinder2" type="CSGCylinder" parent="House/Stuff/Kitchen Counter"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.271623, 0.507313, -0.289711 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="Stove" type="CSGBox" parent="House/Stuff"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 4.90335, 1.45846, -2.65917 )
+use_collision = true
+width = 1.25
+height = 1.0
+depth = 0.95
+material = ExtResource( 4 )
+
+[node name="compartment" type="CSGBox" parent="House/Stuff/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.123229 )
+operation = 2
+use_collision = true
+width = 0.75
+height = 0.75
+depth = 0.75
+material = ExtResource( 20 )
+
+[node name="burner" type="CSGCylinder" parent="House/Stuff/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.285619, 0.518919, 0.247808 )
+radius = 0.2
+height = 0.01
+material = ExtResource( 20 )
+
+[node name="burner2" type="CSGCylinder" parent="House/Stuff/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.304525, 0.518919, 0.24781 )
+radius = 0.15
+height = 0.01
+material = ExtResource( 20 )
+
+[node name="burner3" type="CSGCylinder" parent="House/Stuff/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.305, 0.519, -0.141701 )
+radius = 0.2
+height = 0.01
+material = ExtResource( 20 )
+
+[node name="burner4" type="CSGCylinder" parent="House/Stuff/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286, 0.519, -0.141702 )
+radius = 0.15
+height = 0.01
+material = ExtResource( 20 )
+
+[node name="door" type="CSGBox" parent="House/Stuff/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.519248 )
+use_collision = true
+width = 1.2
+height = 0.95
+depth = 0.05
+material = ExtResource( 4 )
+
+[node name="CSGTorus2" type="CSGTorus" parent="House/Stuff/Stove/door"]
+transform = Transform( -2.638, 0, -3.25841e-07, 0, 1, 0, 8.5957e-07, 0, -1, 0, 0.409236, 0.0363979 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/Stuff/Stove/door/CSGTorus2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111994, 0, 0.174598 )
+operation = 2
+width = 0.4
+height = 0.196
+depth = 0.334
+
+[node name="Windowcut" type="CSGBox" parent="House/Stuff/Stove/door"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0454943, -0.0507627 )
+operation = 2
+use_collision = true
+width = 0.7
+height = 0.6
+depth = 0.2
+material = ExtResource( 4 )
+
+[node name="window" type="Spatial" parent="House/Stuff/Stove/door"]
+
+[node name="pane" type="CSGBox" parent="House/Stuff/Stove/door/window"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0454943, -0.0507627 )
+use_collision = true
+width = 0.7
+height = 0.6
+depth = 0.2
+material = ExtResource( 2 )
+
+[node name="controls" type="CSGBox" parent="House/Stuff/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.607763, -0.433671 )
+width = 1.25
+height = 0.2
+depth = 0.1
+material = ExtResource( 4 )
+
+[node name="knob" type="CSGCylinder" parent="House/Stuff/Stove/controls"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, -0.447615, 0.0352073, 0.0808496 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 4 )
+
+[node name="knob2" type="CSGCylinder" parent="House/Stuff/Stove/controls"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, -0.313223, 0.0352073, 0.0808496 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 4 )
+
+[node name="knob3" type="CSGCylinder" parent="House/Stuff/Stove/controls"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0.303723, 0.0352073, 0.0808487 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 4 )
+
+[node name="knob4" type="CSGCylinder" parent="House/Stuff/Stove/controls"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0.438115, 0.0352073, 0.0808477 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 4 )
+
+[node name="CSGBox" type="CSGBox" parent="House/Stuff/Stove/controls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00597858, 0, 0.0154629 )
+width = 0.3
+height = 0.1
+depth = 0.1
+material = ExtResource( 20 )
+
+[node name="Kitchen Counter3" type="CSGBox" parent="House/Stuff"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 4.88155, 1.45846, -4.10659 )
+use_collision = true
+width = 1.5
+height = 1.0
+depth = 1.0
+material = ExtResource( 4 )
+
+[node name="Lights" type="Spatial" parent="House"]
+
+[node name="Room1Light1" type="OmniLight" parent="House/Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.43038, 4.19747, -2.00846 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.17
+shadow_enabled = true
+shadow_bias = 0.05
+omni_range = 9.4
+
+[node name="Room1Light2" type="OmniLight" parent="House/Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.44853, 4.19747, -2.00846 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+shadow_enabled = true
+shadow_bias = 0.03
+omni_range = 9.4
+
+[node name="util_light" type="OmniLight" parent="House/Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.17549, 4.19747, -6.77582 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+shadow_enabled = true
+omni_range = 9.4
+
+[node name="bed_light" type="OmniLight" parent="House/Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.44853, 4.19747, -8.73291 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+shadow_enabled = true
+omni_range = 9.4
+
+[node name="bed_light2" type="OmniLight" parent="House/Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.221168, 8.00861, -6.66473 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+shadow_enabled = true
+omni_range = 9.4
+
+[node name="PorchLight" type="OmniLight" parent="House/Lights"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.111787, 3.55009, 1.24495 )
+light_color = Color( 0.968627, 0.952941, 0, 1 )
 shadow_enabled = true
 
-[node name="Window2Cut2" type="CSGBox" parent="House/House Exterior/Backroom"]
-transform = Transform( -3.25841e-07, 0, 1, 0, 1, 0, -2, 0, -1.62921e-07, 5.00818, -0.166087, 0.00741196 )
-operation = 2
-width = 1.4
-height = 1.4
-depth = 0.3
-material = SubResource( 14 )
-
-[node name="Window2Pane2" type="CSGBox" parent="House/House Exterior/Backroom"]
-transform = Transform( -3.25841e-07, 0, 1, 0, 1, 0, -2, 0, -1.62921e-07, 5.00818, -0.166087, 0.00741196 )
-width = 1.4
-height = 1.4
-depth = 0.15
-material = SubResource( 14 )
-
-[node name="Parts" type="Node" parent="House"]
-
-[node name="StairCase" parent="House/Parts" instance=ExtResource( 15 )]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -14.9801, 0, -5.67838 )
-
-[node name="CSGBox" type="CSGBox" parent="House"]
+[node name="Garage" type="CSGBox" parent="House"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.9512, 0, 0 )
 use_collision = true
 width = 18.4599
 height = 7.83596
 depth = 6.08399
 
-[node name="Room1" type="CSGBox" parent="House/CSGBox"]
+[node name="Room1" type="CSGBox" parent="House/Garage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.46169, 1.47442, 0.599786 )
 operation = 2
 width = 3.986
@@ -356,7 +727,7 @@ height = 3.24
 depth = 2.138
 material = ExtResource( 4 )
 
-[node name="Room2" type="CSGBox" parent="House/CSGBox"]
+[node name="Room2" type="CSGBox" parent="House/Garage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.46169, 1.47442, -1.86321 )
 operation = 2
 width = 3.986
@@ -364,7 +735,7 @@ height = 3.24
 depth = 2.138
 material = ExtResource( 4 )
 
-[node name="Room3" type="CSGBox" parent="House/CSGBox"]
+[node name="Room3" type="CSGBox" parent="House/Garage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.20784, 1.47442, -0.647651 )
 operation = 2
 width = 3.986
@@ -372,34 +743,34 @@ height = 3.24
 depth = 4.99093
 material = ExtResource( 4 )
 
-[node name="WindowCuts_Doorways" type="CSGCombiner" parent="House/CSGBox"]
+[node name="WindowCuts_Doorways" type="CSGCombiner" parent="House/Garage"]
 operation = 2
 
-[node name="windowcut" type="CSGBox" parent="House/CSGBox/WindowCuts_Doorways"]
+[node name="windowcut" type="CSGBox" parent="House/Garage/WindowCuts_Doorways"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.6859, 1.58062, 2.40583 )
 material = ExtResource( 4 )
 
-[node name="windowcut2" type="CSGBox" parent="House/CSGBox/WindowCuts_Doorways"]
+[node name="windowcut2" type="CSGBox" parent="House/Garage/WindowCuts_Doorways"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.24795, 1.58062, 2.40583 )
 material = ExtResource( 4 )
 
-[node name="WindowCuts_Doorways2" type="CSGCombiner" parent="House/CSGBox"]
+[node name="WindowCuts_Doorways2" type="CSGCombiner" parent="House/Garage"]
 
-[node name="windowcut" type="CSGBox" parent="House/CSGBox/WindowCuts_Doorways2"]
+[node name="windowcut" type="CSGBox" parent="House/Garage/WindowCuts_Doorways2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.6859, 1.58062, 2.40583 )
 width = 1.99
 height = 1.99
 depth = 1.99
 material = ExtResource( 2 )
 
-[node name="windowcut2" type="CSGBox" parent="House/CSGBox/WindowCuts_Doorways2"]
+[node name="windowcut2" type="CSGBox" parent="House/Garage/WindowCuts_Doorways2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.24795, 1.58062, 2.40583 )
 width = 1.99
 height = 1.99
 depth = 1.99
 material = ExtResource( 2 )
 
-[node name="windowpane" type="CSGBox" parent="House/CSGBox"]
+[node name="windowpane" type="CSGBox" parent="House/Garage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.6859, 1.58062, 2.40583 )
 visible = false
 width = 1.99
@@ -454,7 +825,7 @@ material_override = SubResource( 19 )
 [node name="tires" type="Node" parent="Decor"]
 
 [node name="RigidBody" type="RigidBody" parent="Decor/tires"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.34807, 0.331456, -6.59004 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.34807, 2.40067, -6.59004 )
 collision_layer = 5
 collision_mask = 5
 
@@ -498,11 +869,13 @@ shape = SubResource( 20 )
 
 [node name="CSGSphere" type="CSGSphere" parent="Decor/tires/RigidBody3"]
 material_override = SubResource( 21 )
+radial_segments = 17
 
 [node name="CSGTorus" type="CSGTorus" parent="Decor/tires/RigidBody3/CSGSphere"]
 operation = 1
 inner_radius = 0.598
 outer_radius = 1.342
+sides = 20
 
 [node name="Events" type="Node" parent="."]
 
@@ -517,6 +890,7 @@ focus_targets = [ NodePath("../../../Decor/Yard/Topiary") ]
 
 [node name="CollisionShape" type="CollisionShape" parent="Events/house_event/Area"]
 shape = SubResource( 22 )
+disabled = true
 
 [node name="house_event2" type="Spatial" parent="Events"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -14.0083, 1.01818, -6.13417 )
@@ -530,6 +904,7 @@ lock_player = false
 
 [node name="CollisionShape" type="CollisionShape" parent="Events/house_event2/Area"]
 shape = SubResource( 22 )
+disabled = true
 
 [node name="house_event3" type="Spatial" parent="Events"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.00825, 4.01818, -5.14444 )
@@ -545,6 +920,7 @@ lock_player = false
 
 [node name="CollisionShape" type="CollisionShape" parent="Events/house_event3/Area"]
 shape = SubResource( 22 )
+disabled = true
 
 [node name="Items" type="Node" parent="."]
 
@@ -610,5 +986,30 @@ radius = 0.025
 height = 0.015
 material = SubResource( 24 )
 
-[node name="Door1" parent="." instance=ExtResource( 16 )]
-transform = Transform( 1.342, 0, 0, 0, 1.412, 0, 0, 0, 1, -9.07481, 2.53842, -2.1545 )
+[node name="3cu, meter snowman" type="CSGSphere" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.0768, 0.99216, 7.93488 )
+radius = 0.5
+
+[node name="CSGSphere2" type="CSGSphere" parent="3cu, meter snowman"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+radius = 0.5
+
+[node name="CSGSphere4" type="CSGSphere" parent="3cu, meter snowman"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0 )
+radius = 0.5
+
+[node name="CSGSphere5" type="CSGSphere" parent="3cu, meter snowman"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0 )
+radius = 0.5
+
+[node name="CSGSphere6" type="CSGSphere" parent="3cu, meter snowman"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
+radius = 0.5
+
+[node name="CSGSphere7" type="CSGSphere" parent="3cu, meter snowman"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2 )
+radius = 0.5
+
+[node name="CSGSphere3" type="CSGSphere" parent="3cu, meter snowman"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+radius = 0.5

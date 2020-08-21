@@ -1,0 +1,65 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Materials/house exterior.tres" type="Material" id=1]
+
+[node name="Trim" type="Spatial"]
+
+[node name="Top" type="CSGBox" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
+width = 1.6
+height = 0.1
+depth = 0.1
+material = ExtResource( 1 )
+
+[node name="CSGBox2" type="CSGBox" parent="Top"]
+transform = Transform( 1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.0304842, 0.0366715 )
+operation = 2
+width = 1.61
+height = 0.15
+depth = 0.1
+material = ExtResource( 1 )
+
+[node name="Left" type="CSGBox" parent="."]
+transform = Transform( -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0, 1, -0.75, 0, 0 )
+width = 1.6
+height = 0.1
+depth = 0.1
+material = ExtResource( 1 )
+
+[node name="CSGBox2" type="CSGBox" parent="Left"]
+transform = Transform( 1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.0304842, 0.0366715 )
+operation = 2
+width = 1.61
+height = 0.15
+depth = 0.1
+material = ExtResource( 1 )
+
+[node name="Bottom" type="CSGBox" parent="."]
+transform = Transform( -1, 3.25841e-07, 0, -3.25841e-07, -1, 0, 0, 0, 1, 0, -0.75, 0 )
+width = 1.6
+height = 0.1
+depth = 0.1
+material = ExtResource( 1 )
+
+[node name="CSGBox2" type="CSGBox" parent="Bottom"]
+transform = Transform( 1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.0304842, 0.0366715 )
+operation = 2
+width = 1.61
+height = 0.15
+depth = 0.1
+material = ExtResource( 1 )
+
+[node name="Right" type="CSGBox" parent="."]
+transform = Transform( 1.19249e-08, 1, 0, -1, 1.19249e-08, 0, 0, 0, 1, 0.75, 0, 0 )
+width = 1.6
+height = 0.1
+depth = 0.1
+material = ExtResource( 1 )
+
+[node name="CSGBox2" type="CSGBox" parent="Right"]
+transform = Transform( 1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, -0.0304842, 0.0366715 )
+operation = 2
+width = 1.61
+height = 0.15
+depth = 0.1
+material = ExtResource( 1 )

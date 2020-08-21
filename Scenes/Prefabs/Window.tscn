@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/Prefabs/Trim.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Materials/Window.tres" type="Material" id=2]
+
+[node name="Window" type="Spatial"]
+
+[node name="Pane" type="CSGBox" parent="."]
+use_collision = true
+width = 1.4
+height = 1.4
+depth = 0.05
+material = ExtResource( 2 )
+
+[node name="TrimA" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125 )
+
+[node name="TrimB" parent="." instance=ExtResource( 1 )]
+transform = Transform( -1, 0, -3.89414e-07, 0, 1, 0, 3.89414e-07, 0, -1, 0, 0, -0.125 )

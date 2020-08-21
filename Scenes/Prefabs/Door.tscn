@@ -1,26 +1,31 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scripts/Interactable.gd" type="Script" id=1]
 [ext_resource path="res://KennyTextures/Vector/texture_08.svg" type="Texture" id=2]
 [ext_resource path="res://Materials/checkerboard.tres" type="Material" id=3]
-[ext_resource path="res://Scenes/Prefabs/Door.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/Door.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Prefabs/Trim.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Materials/metal.tres" type="Material" id=6]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 2 )
 
 [sub_resource type="BoxShape" id=2]
-extents = Vector3( 0.7, 1.05, 0.05 )
+extents = Vector3( 0.7, 1.05, 0.025 )
 
 [node name="Door1" type="Spatial"]
+script = ExtResource( 4 )
 
-[node name="CSGBox2" type="CSGBox" parent="."]
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Doorframe" type="CSGBox" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0, 0.075 )
 width = 1.45
 height = 2.15
 depth = 0.15
 material = ExtResource( 3 )
 
-[node name="CSGBox2" type="CSGBox" parent="CSGBox2"]
+[node name="DoorCutout" type="CSGBox" parent="Doorframe"]
 operation = 2
 use_collision = true
 width = 1.4
@@ -29,42 +34,106 @@ depth = 0.2
 material = ExtResource( 3 )
 
 [node name="hinge" type="Spatial" parent="."]
-script = ExtResource( 4 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0191887 )
 
-[node name="Tween" type="Tween" parent="hinge"]
-
-[node name="CSGBox" type="CSGBox" parent="hinge"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0, 0.05 )
+[node name="Door" type="CSGBox" parent="hinge"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.695, 0, 0.053 )
 collision_layer = 5
 collision_mask = 5
 width = 1.4
 height = 2.1
-depth = 0.1
+depth = 0.05
 material = SubResource( 1 )
 
-[node name="CSGSphere" type="CSGSphere" parent="hinge/CSGBox"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.573004, 0.12952, -0.12 )
-radius = 0.05
-material = SubResource( 1 )
-
-[node name="CSGSphere2" type="CSGSphere" parent="hinge/CSGBox"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.573004, 0.12952, 0.12 )
-radius = 0.05
-material = SubResource( 1 )
-
-[node name="CSGCylinder" type="CSGCylinder" parent="hinge/CSGBox"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, -0.565005, 0.12952, 0 )
-radius = 0.025
-height = 0.24183
-material = SubResource( 1 )
-
-[node name="KinematicBody" type="KinematicBody" parent="hinge/CSGBox"]
+[node name="KinematicBody" type="KinematicBody" parent="hinge/Door"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0, -0.05 )
 collision_layer = 5
 collision_mask = 5
 script = ExtResource( 1 )
 
-[node name="CollisionShape" type="CollisionShape" parent="hinge/CSGBox/KinematicBody"]
+[node name="CollisionShape" type="CollisionShape" parent="hinge/Door/KinematicBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0, 0.0410091 )
 shape = SubResource( 2 )
-[connection signal="interacted_with" from="hinge/CSGBox/KinematicBody" to="hinge" method="_on_door_interacted_with"]
+
+[node name="ActualHinge" type="CSGCylinder" parent="hinge"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )
+radius = 0.01
+height = 0.1
+material = ExtResource( 6 )
+
+[node name="ActualHinge2" type="CSGCylinder" parent="hinge"]
+radius = 0.01
+height = 0.1
+material = ExtResource( 6 )
+
+[node name="ActualHinge3" type="CSGCylinder" parent="hinge"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.75, 0 )
+radius = 0.01
+height = 0.1
+material = ExtResource( 6 )
+
+[node name="Knob" type="Spatial" parent="hinge"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.196, 0, -0.0182827 )
+
+[node name="CSGSphere" type="CSGSphere" parent="hinge/Knob"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0508112 )
+radius = 0.05
+material = ExtResource( 6 )
+
+[node name="CSGSphere2" type="CSGSphere" parent="hinge/Knob"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.189189 )
+radius = 0.05
+material = ExtResource( 6 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="hinge/Knob"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0.0691887 )
+radius = 0.025
+height = 0.24183
+material = ExtResource( 6 )
+
+[node name="Trim" parent="." instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.699513, 0, 0.192882 )
+
+[node name="Top" parent="Trim" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0 )
+
+[node name="Left" parent="Trim" index="1"]
+width = 2.3
+
+[node name="CSGBox2" parent="Trim/Left" index="0"]
+width = 2.35
+
+[node name="Bottom" parent="Trim" index="2"]
+transform = Transform( -1, 3.25841e-07, 0, -3.25841e-07, -1, 0, 0, 0, 1, 0, -1.1, 0 )
+
+[node name="Right" parent="Trim" index="3"]
+width = 2.3
+
+[node name="CSGBox2" parent="Trim/Right" index="0"]
+width = 2.35
+
+[node name="Trim2" parent="." instance=ExtResource( 5 )]
+transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -0.699513, 0, -0.0440534 )
+
+[node name="Top" parent="Trim2" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1, 0 )
+
+[node name="Left" parent="Trim2" index="1"]
+width = 2.3
+
+[node name="CSGBox2" parent="Trim2/Left" index="0"]
+width = 2.35
+
+[node name="Bottom" parent="Trim2" index="2"]
+transform = Transform( -1, 3.25841e-07, 0, -3.25841e-07, -1, 0, 0, 0, 1, 0, -1.1, 0 )
+
+[node name="Right" parent="Trim2" index="3"]
+width = 2.3
+
+[node name="CSGBox2" parent="Trim2/Right" index="0"]
+width = 2.35
+[connection signal="interacted_with" from="hinge/Door/KinematicBody" to="." method="use"]
+
+[editable path="Trim"]
+
+[editable path="Trim2"]
