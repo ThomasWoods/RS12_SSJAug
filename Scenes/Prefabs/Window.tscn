@@ -1,19 +1,113 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scenes/Prefabs/Trim.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/Window.tres" type="Material" id=2]
+[ext_resource path="res://Materials/metal.tres" type="Material" id=3]
+[ext_resource path="res://Materials/checkerboard.tres" type="Material" id=4]
+[ext_resource path="res://Scripts/Interactable.gd" type="Script" id=5]
+[ext_resource path="res://Scripts/Window.gd" type="Script" id=6]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.798789, 0.789294, 0.164516 )
 
 [node name="Window" type="Spatial"]
+script = ExtResource( 6 )
 
-[node name="Pane" type="CSGBox" parent="."]
+[node name="LowerPane" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03 )
+
+[node name="Pane" type="CSGBox" parent="LowerPane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.328, 0 )
 use_collision = true
 width = 1.4
-height = 1.4
-depth = 0.05
+height = 0.7
+depth = 0.025
 material = ExtResource( 2 )
+
+[node name="Top" type="CSGBox" parent="LowerPane"]
+width = 1.4
+height = 0.1
+depth = 0.05
+material = ExtResource( 4 )
+
+[node name="Left" type="CSGBox" parent="LowerPane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, -0.325, 0 )
+width = 0.1
+height = 0.75
+depth = 0.05
+material = ExtResource( 4 )
+
+[node name="Right" type="CSGBox" parent="LowerPane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, -0.325, 0 )
+width = 0.1
+height = 0.75
+depth = 0.05
+material = ExtResource( 4 )
+
+[node name="Bottom" type="CSGBox" parent="LowerPane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.65, 0 )
+width = 1.4
+height = 0.1
+depth = 0.05
+material = ExtResource( 4 )
+
+[node name="lock" type="CSGCylinder" parent="LowerPane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0542104, -0.00121612 )
+radius = 0.025
+height = 0.01
+material = ExtResource( 3 )
+
+[node name="UpperPane" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, -0.03 )
+
+[node name="Pane" type="CSGBox" parent="UpperPane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.328, 0 )
+use_collision = true
+width = 1.4
+height = 0.7
+depth = 0.025
+material = ExtResource( 2 )
+
+[node name="Top" type="CSGBox" parent="UpperPane"]
+width = 1.4
+height = 0.1
+depth = 0.05
+material = ExtResource( 4 )
+
+[node name="Left" type="CSGBox" parent="UpperPane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, -0.325, 0 )
+width = 0.1
+height = 0.75
+depth = 0.05
+material = ExtResource( 4 )
+
+[node name="Right" type="CSGBox" parent="UpperPane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, -0.325, 0 )
+width = 0.1
+height = 0.75
+depth = 0.05
+material = ExtResource( 4 )
+
+[node name="Bottom" type="CSGBox" parent="UpperPane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.65, 0 )
+width = 1.4
+height = 0.1
+depth = 0.05
+material = ExtResource( 4 )
 
 [node name="TrimA" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125 )
 
 [node name="TrimB" parent="." instance=ExtResource( 1 )]
 transform = Transform( -1, 0, -3.89414e-07, 0, 1, 0, 3.89414e-07, 0, -1, 0, 0, -0.125 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[node name="KinematicBody" type="KinematicBody" parent="."]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource( 5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="KinematicBody"]
+shape = SubResource( 1 )
+[connection signal="interacted_with" from="KinematicBody" to="." method="use"]

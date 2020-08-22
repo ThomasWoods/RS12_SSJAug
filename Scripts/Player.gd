@@ -35,6 +35,9 @@ func _ready():
 	
 
 func _process(delta):
+	if Input.is_action_just_pressed("flashlight"):
+		var f = player_cam.get_node("flashlight") as SpotLight
+		f.visible=!f.visible
 	if Input.is_action_just_pressed("ui_home"):
 		switch_camera()
 	if in_event: 
