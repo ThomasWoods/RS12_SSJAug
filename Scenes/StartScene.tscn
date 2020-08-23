@@ -63,6 +63,13 @@ albedo_texture = ExtResource( 5 )
 uv1_scale = Vector3( 0.507, -0.767, 1 )
 uv1_offset = Vector3( 0.245, 0.008, 0 )
 
+[sub_resource type="SpatialMaterial" id=13]
+flags_transparent = true
+albedo_color = Color( 0.552941, 0.552941, 0.552941, 0.729412 )
+albedo_texture = ExtResource( 22 )
+metallic = 0.15
+metallic_specular = 0.2
+
 [sub_resource type="SpatialMaterial" id=10]
 albedo_texture = ExtResource( 10 )
 
@@ -71,13 +78,6 @@ albedo_texture = ExtResource( 10 )
 [sub_resource type="SpatialMaterial" id=12]
 albedo_color = Color( 1, 0.992157, 0.894118, 1 )
 metallic = 0.75
-
-[sub_resource type="SpatialMaterial" id=13]
-flags_transparent = true
-albedo_color = Color( 0.552941, 0.552941, 0.552941, 0.729412 )
-albedo_texture = ExtResource( 22 )
-metallic = 0.15
-metallic_specular = 0.2
 
 [sub_resource type="SpatialMaterial" id=14]
 albedo_color = Color( 0.0352941, 0.27451, 0.0196078, 1 )
@@ -230,10 +230,10 @@ smooth_faces = true
 material = SubResource( 8 )
 
 [node name="house cutout" type="CSGBox" parent="Ground/CSGCombiner"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -9.97172, 1.18353, -7.73752 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.0018, 1.18353, -9.34153 )
 operation = 2
-width = 11.15
-depth = 11.15
+width = 11.14
+depth = 14.475
 
 [node name="Player" parent="." instance=ExtResource( 12 )]
 transform = Transform( 0.60414, 0, 0.796878, 0, 1, 0, -0.796878, 0, 0.60414, -2.82236, 1.14108, 10.6209 )
@@ -241,14 +241,22 @@ transform = Transform( 0.60414, 0, 0.796878, 0, 1, 0, -0.796878, 0, 0.60414, -2.
 [node name="House" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -2 )
 
-[node name="House Exterior" type="CSGPolygon" parent="House"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25044, 0 )
+[node name="exterior" type="CSGPolygon" parent="House"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.25, 0 )
 use_collision = true
-polygon = PoolVector2Array( -5.575, -1, 5.575, -1, 5.575, 5.453, 0, 10, -5.575, 5 )
+polygon = PoolVector2Array( -5.675, -1, 5.675, -1, 5.675, 5.1, 0, 10.1, -5.675, 5.1 )
+depth = 14.7
+material = ExtResource( 17 )
+
+[node name="exterior2" type="CSGPolygon" parent="House/exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
+operation = 2
+use_collision = true
+polygon = PoolVector2Array( -5.575, -1, 5.575, -1, 5.575, 5, 0, 10, -5.575, 5 )
 depth = 14.5
 material = ExtResource( 17 )
 
-[node name="Entrance" type="CSGBox" parent="House/House Exterior"]
+[node name="Entrance" type="CSGBox" parent="House/exterior"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.775879, -0.0994651 )
 operation = 2
 width = 1.4
@@ -256,12 +264,110 @@ height = 2.1
 depth = 0.5
 material = SubResource( 9 )
 
-[node name="Rooms" type="CSGCombiner" parent="House/House Exterior"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.19209e-07, 0 )
+[node name="win_cut_kitchen_south" type="CSGBox" parent="House/exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.00058, 1.3187, -0.0840058 )
 operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
 
-[node name="FrontRoom" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.45, -2.52763 )
+[node name="win_cut_kitchen_east" type="CSGBox" parent="House/exterior"]
+transform = Transform( -1.95505e-07, 0, 1, 0, 0.8, 0, -1.2, 0, -1.62921e-07, 5.53843, 1.64771, -1.32731 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_util" type="CSGBox" parent="House/exterior"]
+transform = Transform( -3.25841e-07, 0, 1, 0, 1, 0, -2, 0, -1.62921e-07, 5.43749, 1.28591, -7.51133 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_great_south" type="CSGBox" parent="House/exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.56466, 1.28591, -0.0840058 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_great_west" type="CSGBox" parent="House/exterior"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49777, 1.28591, -1.73457 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_bed" type="CSGBox" parent="House/exterior"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49777, 1.28591, -9.1874 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_attic_south" type="CSGBox" parent="House/exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.177707, 4.7868, -0.0840058 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_attic_north" type="CSGBox" parent="House/exterior"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.177707, 4.7868, -14.8071 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_bath_1" type="CSGBox" parent="House/exterior"]
+transform = Transform( 0.75, 0, 0, 0, 0.5, 0, 0, 0, 1, 3.97197, 1.80088, -14.5485 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_bath_2" type="CSGBox" parent="House/exterior"]
+transform = Transform( 0.75, 0, 0, 0, 0.5, 0, 0, 0, 1, -4.33853, 1.80088, -14.5367 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="WindowCuts" type="CSGCombiner" parent="House/exterior"]
+
+[node name="rooms" type="Spatial" parent="House"]
+
+[node name="front_room" type="CSGBox" parent="House/rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.70044, -2.52763 )
+snap = 0.0001
+use_collision = true
+width = 11.0
+height = 3.6
+depth = 4.85
+material = ExtResource( 6 )
+
+[node name="greatroom_add" type="CSGBox" parent="House/rooms/front_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.94387, 0.00200009, -3.01907 )
+snap = 0.0001
+calculate_tangents = false
+width = 5.1
+height = 3.6
+depth = 1.45
+material = ExtResource( 6 )
+
+[node name="FrontRoom int" type="CSGBox" parent="House/rooms/front_room"]
+operation = 2
 snap = 0.0001
 calculate_tangents = false
 width = 10.9
@@ -269,8 +375,9 @@ height = 3.5
 depth = 4.75
 material = ExtResource( 6 )
 
-[node name="greatroom cutout" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.94387, 1.452, -5.5467 )
+[node name="greatroom_int" type="CSGBox" parent="House/rooms/front_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.94387, 0.00200009, -3.01907 )
+operation = 2
 snap = 0.0001
 calculate_tangents = false
 width = 5.0
@@ -278,203 +385,1250 @@ height = 3.5
 depth = 1.35
 material = ExtResource( 6 )
 
-[node name="utility room" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12341, 1.45, -8.20348 )
-width = 4.6
-height = 3.5
-depth = 6.25
-material = ExtResource( 6 )
-
-[node name="bath1" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.45415, 1.45, -12.9229 )
-width = 4.0
-height = 3.5
-depth = 2.9
-material = ExtResource( 6 )
-
-[node name="bed_door" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.21154, 0.794871, -6.25057 )
-width = 1.4
-height = 2.1
-depth = 0.25
-material = ExtResource( 6 )
-
-[node name="bath1_door" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.33072, 0.794871, -11.4282 )
-width = 1.4
-height = 2.1
-depth = 0.25
-material = ExtResource( 6 )
-
-[node name="Bedroom" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.37277, 1.45, -8.86601 )
-width = 6.1
-height = 3.5
-depth = 5.0
-material = ExtResource( 6 )
-
-[node name="hall" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79024, 0.952, -4.978 )
+[node name="hall" type="CSGBox" parent="House/rooms/front_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.79024, -0.498, -2.45037 )
+operation = 2
 width = 1.6
 height = 2.5
 depth = 0.25
 material = ExtResource( 6 )
 
-[node name="upstairs" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.161, 5.2, -7.256 )
-calculate_tangents = false
-width = 5.515
-height = 3.5
-depth = 14.2
+[node name="Entrance2" type="CSGBox" parent="House/rooms/front_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.674121, 2.42816 )
+operation = 2
+width = 1.4
+height = 2.1
+depth = 0.5
+material = SubResource( 9 )
+
+[node name="bed_door_cut" type="CSGBox" parent="House/rooms/front_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.21154, -0.655129, -3.72294 )
+operation = 2
+width = 1.4
+height = 2.1
+depth = 0.25
 material = ExtResource( 6 )
 
-[node name="upstairs cutout" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.34685, 3.14346, -7.38058 )
+[node name="win_cut_kitchen_south" type="CSGBox" parent="House/rooms/front_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.00058, -0.1313, 2.44362 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_kitchen_east" type="CSGBox" parent="House/rooms/front_room"]
+transform = Transform( -1.95505e-07, 0, 1, 0, 0.8, 0, -1.2, 0, -1.62921e-07, 5.53843, 0.19771, 1.20032 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_great_south" type="CSGBox" parent="House/rooms/front_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.56466, -0.16409, 2.44362 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="win_cut_great_west" type="CSGBox" parent="House/rooms/front_room"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49777, -0.16409, 0.79306 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="Kitchen" type="Spatial" parent="House/rooms/front_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.70044, 2.52763 )
+
+[node name="fridge" type="CSGBox" parent="House/rooms/front_room/Kitchen"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 3.60351, 1.99809, -4.51167 )
+use_collision = true
+width = 0.75
+depth = 1.5
+material = ExtResource( 19 )
+
+[node name="LeftDoor" type="CSGBox" parent="House/rooms/front_room/Kitchen/fridge"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.447441, 0, -0.375 )
+width = 0.1
+depth = 0.74
+material = ExtResource( 19 )
+
+[node name="CSGTorus" type="CSGTorus" parent="House/rooms/front_room/Kitchen/fridge/LeftDoor"]
+transform = Transform( 7.00208e-14, 1.62921e-07, 1, 2.638, -1.62921e-07, 0, 4.29785e-07, 1, -1.62921e-07, -0.055, 0, 0.3 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/front_room/Kitchen/fridge/LeftDoor/CSGTorus"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111994, 0, 0.174598 )
+operation = 2
+width = 0.4
+height = 0.196
+depth = 0.334
+
+[node name="LeftDoor2" type="CSGBox" parent="House/rooms/front_room/Kitchen/fridge"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.447441, 0, 0.375 )
+width = 0.1
+depth = 0.74
+material = ExtResource( 19 )
+
+[node name="CSGTorus2" type="CSGTorus" parent="House/rooms/front_room/Kitchen/fridge/LeftDoor2"]
+transform = Transform( 7.00208e-14, 1.62921e-07, 1, 2.638, -1.62921e-07, 0, 4.29785e-07, 1, -1.62921e-07, -0.055, 0, -0.3 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/front_room/Kitchen/fridge/LeftDoor2/CSGTorus2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111994, 0, 0.174598 )
+operation = 2
+width = 0.4
+height = 0.196
+depth = 0.334
+
+[node name="Kitchen Counter" type="CSGBox" parent="House/rooms/front_room/Kitchen"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 4.88155, 1.45846, -1.0865 )
+use_collision = true
+width = 1.75
+height = 1.0
+depth = 1.0
+material = ExtResource( 4 )
+
+[node name="sink" type="CSGBox" parent="House/rooms/front_room/Kitchen/Kitchen Counter"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0931664, 0.239475, -2.86102e-06 )
+operation = 2
+width = 0.75
+height = 0.75
+depth = 0.5
+material = ExtResource( 21 )
+
+[node name="faucet" type="CSGTorus" parent="House/rooms/front_room/Kitchen/Kitchen Counter"]
+transform = Transform( -2.9733e-07, -1, 0, 1.79727, -1.60446e-07, -0.173648, 0.316908, -2.82909e-08, 0.984808, 0.100873, 0.602587, -0.171736 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+ring_sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/front_room/Kitchen/Kitchen Counter/faucet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163665, 9.53674e-07, 0.127582 )
+operation = 2
+width = 0.4
+height = 0.1
+depth = 0.4
+
+[node name="CSGCylinder" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Kitchen Counter"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.0527463, 0.507313, -0.289711 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="drain3" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Kitchen Counter"]
+transform = Transform( -1, 0, -3.25842e-07, 0, 1, 0, 3.25842e-07, 0, -1, 0.116521, -0.152596, -0.170553 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 19 )
+
+[node name="CSGCylinder2" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Kitchen Counter"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.271623, 0.507313, -0.289711 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="Stove" type="CSGBox" parent="House/rooms/front_room/Kitchen"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 4.90335, 1.45846, -2.65917 )
+use_collision = true
+width = 1.25
+height = 1.0
+depth = 0.95
+material = ExtResource( 4 )
+
+[node name="compartment" type="CSGBox" parent="House/rooms/front_room/Kitchen/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.123229 )
+operation = 2
+use_collision = true
+width = 0.75
+height = 0.75
+depth = 0.75
+material = ExtResource( 20 )
+
+[node name="burner" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.285619, 0.518919, 0.247808 )
+radius = 0.2
+height = 0.01
+material = ExtResource( 20 )
+
+[node name="burner2" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.304525, 0.518919, 0.24781 )
+radius = 0.15
+height = 0.01
+material = ExtResource( 20 )
+
+[node name="burner3" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.305, 0.519, -0.141701 )
+radius = 0.2
+height = 0.01
+material = ExtResource( 20 )
+
+[node name="burner4" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286, 0.519, -0.141702 )
+radius = 0.15
+height = 0.01
+material = ExtResource( 20 )
+
+[node name="door" type="CSGBox" parent="House/rooms/front_room/Kitchen/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.519248 )
+use_collision = true
+width = 1.2
+height = 0.95
+depth = 0.05
+material = ExtResource( 4 )
+
+[node name="CSGTorus2" type="CSGTorus" parent="House/rooms/front_room/Kitchen/Stove/door"]
+transform = Transform( -2.638, 0, -3.25841e-07, 0, 1, 0, 8.5957e-07, 0, -1, 0, 0.409236, 0.0363979 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/front_room/Kitchen/Stove/door/CSGTorus2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111994, 0, 0.174598 )
+operation = 2
+width = 0.4
+height = 0.196
+depth = 0.334
+
+[node name="Windowcut" type="CSGBox" parent="House/rooms/front_room/Kitchen/Stove/door"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0454943, -0.0507627 )
+operation = 2
+use_collision = true
+width = 0.7
+height = 0.6
+depth = 0.2
+material = ExtResource( 4 )
+
+[node name="window" type="Spatial" parent="House/rooms/front_room/Kitchen/Stove/door"]
+
+[node name="pane" type="CSGBox" parent="House/rooms/front_room/Kitchen/Stove/door/window"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0454943, -0.0507627 )
+use_collision = true
+width = 0.7
+height = 0.6
+depth = 0.2
+material = ExtResource( 2 )
+
+[node name="controls" type="CSGBox" parent="House/rooms/front_room/Kitchen/Stove"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.607763, -0.433671 )
+width = 1.25
+height = 0.2
+depth = 0.1
+material = ExtResource( 4 )
+
+[node name="knob" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Stove/controls"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, -0.447615, 0.0352073, 0.0808496 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 4 )
+
+[node name="knob2" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Stove/controls"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, -0.313223, 0.0352073, 0.0808496 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 4 )
+
+[node name="knob3" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Stove/controls"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0.303723, 0.0352073, 0.0808487 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 4 )
+
+[node name="knob4" type="CSGCylinder" parent="House/rooms/front_room/Kitchen/Stove/controls"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0.438115, 0.0352073, 0.0808477 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 4 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/front_room/Kitchen/Stove/controls"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00597858, 0, 0.0154629 )
+width = 0.3
+height = 0.1
+depth = 0.1
+material = ExtResource( 20 )
+
+[node name="Kitchen Counter3" type="CSGBox" parent="House/rooms/front_room/Kitchen"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 4.88155, 1.45846, -4.10659 )
+use_collision = true
+width = 1.5
+height = 1.0
+depth = 1.0
+material = ExtResource( 4 )
+
+[node name="Room1Light1" type="OmniLight" parent="House/rooms/front_room/Kitchen"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.43038, 4.19747, -2.00846 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.17
+light_specular = 0.1
+light_bake_mode = 0
+shadow_enabled = true
+shadow_bias = 0.05
+
+[node name="greatroom" type="Spatial" parent="House/rooms/front_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.70044, 2.52763 )
+
+[node name="Room1Light2" type="OmniLight" parent="House/rooms/front_room/greatroom"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.44853, 4.19747, -2.00846 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+light_specular = 0.1
+light_bake_mode = 0
+shadow_enabled = true
+shadow_bias = 0.03
+
+[node name="floor" type="CSGBox" parent="House/rooms/front_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.79744, -0.63601 )
+width = 11.1
+height = 0.1
+depth = 6.1
+material = ExtResource( 23 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/front_room/floor"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.13433, -0.742813, -2.80005 )
+operation = 2
+width = 4.65
+
+[node name="utility_room" type="CSGBox" parent="House/rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.12341, 2.70044, -8.20348 )
+use_collision = true
+width = 4.7
+height = 3.6
+depth = 6.35
+material = ExtResource( 6 )
+
+[node name="utility_room_int" type="CSGBox" parent="House/rooms/utility_room"]
+operation = 2
+width = 4.6
+height = 3.5
+depth = 6.25
+material = ExtResource( 6 )
+
+[node name="hall2" type="CSGBox" parent="House/rooms/utility_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.30752, -0.498, 3.22548 )
+operation = 2
+width = 1.6
+height = 2.5
+depth = 0.25
+material = ExtResource( 6 )
+
+[node name="bath1_door_cut" type="CSGBox" parent="House/rooms/utility_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.20731, -0.655129, -3.22472 )
+operation = 2
+width = 1.4
+height = 2.1
+depth = 0.25
+material = ExtResource( 6 )
+
+[node name="upstairs cutout" type="CSGBox" parent="House/rooms/utility_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.77656, 1.69346, 0.8229 )
+operation = 2
 calculate_tangents = false
 width = 1.0
 height = 1.0
 depth = 3.5
 material = ExtResource( 6 )
 
-[node name="bath2" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.42856, 1.45, -12.9483 )
+[node name="win_cut_util" type="CSGBox" parent="House/rooms/utility_room"]
+transform = Transform( -3.25841e-07, 0, 1, 0, 1, 0, -2, 0, -1.62921e-07, 2.31408, -0.16409, 0.69215 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="furniture" type="Spatial" parent="House/rooms/utility_room"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.12341, -2.70044, 8.20348 )
+
+[node name="util_light" type="OmniLight" parent="House/rooms/utility_room/furniture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.83036, 4.08698, -8.02602 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+light_specular = 0.1
+light_bake_mode = 0
+shadow_enabled = true
+
+[node name="bath_1" type="CSGBox" parent="House/rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.45415, 2.70044, -12.9229 )
+use_collision = true
+width = 4.1
+height = 3.6
+depth = 3.0
+material = ExtResource( 6 )
+
+[node name="bath_1_int" type="CSGBox" parent="House/rooms/bath_1"]
+operation = 2
+width = 4.0
+height = 3.5
+depth = 2.9
+material = ExtResource( 6 )
+
+[node name="bath1_door_cut2" type="CSGBox" parent="House/rooms/bath_1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.87657, -0.655129, 1.4947 )
+operation = 2
+width = 1.4
+height = 2.1
+depth = 0.25
+material = ExtResource( 6 )
+
+[node name="win_cut_bath_1" type="CSGBox" parent="House/rooms/bath_1"]
+transform = Transform( 0.75, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.51782, 0.35088, -1.4889 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="furniture" type="Spatial" parent="House/rooms/bath_1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.45415, -2.70044, 12.9229 )
+
+[node name="Bath Counter2" type="CSGBox" parent="House/rooms/bath_1/furniture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.12387, 1.9246, -14.1028 )
+use_collision = true
+width = 1.5
+height = 0.25
+depth = 0.7
+material = ExtResource( 4 )
+
+[node name="sink" type="CSGBox" parent="House/rooms/bath_1/furniture/Bath Counter2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0272579, 0.0879612, -2.86102e-06 )
+operation = 2
+width = 0.75
+height = 0.2
+depth = 0.5
+material = ExtResource( 21 )
+
+[node name="faucet" type="CSGTorus" parent="House/rooms/bath_1/furniture/Bath Counter2"]
+transform = Transform( -2.9733e-07, -1, 0, 1.79727, -1.60446e-07, -0.173648, 0.316908, -2.82909e-08, 0.984808, 0.0349646, 0.231521, -0.171736 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+ring_sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/bath_1/furniture/Bath Counter2/faucet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163665, 9.53674e-07, 0.127582 )
+operation = 2
+width = 0.4
+height = 0.1
+depth = 0.4
+
+[node name="CSGCylinder" type="CSGCylinder" parent="House/rooms/bath_1/furniture/Bath Counter2"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.118654, 0.136247, -0.289711 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="CSGCylinder2" type="CSGCylinder" parent="House/rooms/bath_1/furniture/Bath Counter2"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.205714, 0.136247, -0.289711 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="drain2" type="CSGCylinder" parent="House/rooms/bath_1/furniture/Bath Counter2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0532093, -0.0452455, -0.0317574 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 19 )
+
+[node name="Toilet" type="Spatial" parent="House/rooms/bath_1/furniture"]
+transform = Transform( 1.52519e-08, 0, -1, 0, 1, 0, 1.279, 0, 1.19249e-08, 2.77991, 1.59433, -13.8169 )
+
+[node name="CSGBox2" type="CSGBox" parent="House/rooms/bath_1/furniture/Toilet"]
+transform = Transform( 0.781861, 0, 0, 0, 1, 0, 0, 0, 1, -0.342848, 0.236403, -0.0129776 )
+use_collision = true
+width = 0.2
+height = 0.585
+depth = 0.584
+material = ExtResource( 21 )
+
+[node name="CSGBox3" type="CSGBox" parent="House/rooms/bath_1/furniture/Toilet"]
+transform = Transform( 0.781861, 0, 0, 0, 1, 0, 0, 0, 1, -0.342848, 0.542796, -0.0129776 )
+use_collision = true
+width = 0.25
+height = 0.055
+depth = 0.6
+material = ExtResource( 21 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="House/rooms/bath_1/furniture/Toilet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0835094, -0.40322, 0 )
+use_collision = true
+radius = 0.2
+height = 0.4
+material = ExtResource( 21 )
+
+[node name="bowl" type="CSGSphere" parent="House/rooms/bath_1/furniture/Toilet"]
+use_collision = true
+radius = 0.25
+material = ExtResource( 21 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/bath_1/furniture/Toilet/bowl"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.237985, 0 )
+operation = 2
+width = 0.5
+height = 0.5
+depth = 0.5
+material = ExtResource( 21 )
+
+[node name="lid" type="CSGSphere" parent="House/rooms/bath_1/furniture/Toilet"]
+transform = Transform( 1.247, 0, 0, 0, 1, 0, 0, 0, 1.215, 0, -0.149881, 0 )
+use_collision = true
+radius = 0.25
+material = ExtResource( 21 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/bath_1/furniture/Toilet/lid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.101877, 0 )
+operation = 2
+width = 0.5
+height = 0.5
+depth = 0.5
+material = ExtResource( 21 )
+
+[node name="shower" type="Spatial" parent="House/rooms/bath_1/furniture"]
+
+[node name="basin" type="CSGBox" parent="House/rooms/bath_1/furniture/shower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9518, 1.00135, -11.9789 )
+width = 1.0
+height = 0.1
+depth = 1.0
+material = ExtResource( 21 )
+
+[node name="CSGBox2" type="CSGBox" parent="House/rooms/bath_1/furniture/shower/basin"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0174212, 0 )
+operation = 2
+width = 0.95
+height = 0.09
+depth = 0.95
+material = ExtResource( 21 )
+
+[node name="top" type="CSGBox" parent="House/rooms/bath_1/furniture/shower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9518, 3.59408, -11.9789 )
+width = 1.0
+height = 0.1
+depth = 1.0
+material = ExtResource( 21 )
+
+[node name="CSGBox2" type="CSGBox" parent="House/rooms/bath_1/furniture/shower/top"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0413947, 0 )
+operation = 2
+width = 0.95
+height = 0.344
+depth = 0.95
+material = ExtResource( 21 )
+
+[node name="mid" type="CSGBox" parent="House/rooms/bath_1/furniture/shower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9518, 2.19797, -11.9789 )
+width = 1.05
+height = 0.1
+depth = 1.05
+material = ExtResource( 21 )
+
+[node name="CSGBox2" type="CSGBox" parent="House/rooms/bath_1/furniture/shower/mid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0413947, 0 )
+operation = 2
+width = 0.95
+height = 0.344
+depth = 0.95
+material = ExtResource( 21 )
+
+[node name="glass" type="CSGBox" parent="House/rooms/bath_1/furniture/shower"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9518, 2.29231, -11.9789 )
+width = 1.0
+height = 2.5
+depth = 1.0
+material = SubResource( 13 )
+
+[node name="tubfaucet2" type="Spatial" parent="House/rooms/bath_1/furniture/shower"]
+transform = Transform( -1.62921e-07, 1, -1.62921e-07, 0, -1.62921e-07, -1, -1, -1.62921e-07, 2.65431e-14, 1.47129, 1.92893, -11.9987 )
+
+[node name="faucet2" type="CSGTorus" parent="House/rooms/bath_1/furniture/shower/tubfaucet2"]
+transform = Transform( -1.62921e-07, -1, -2.84217e-14, 0.707107, -1.15202e-07, 0.707107, -0.707107, 1.15202e-07, 0.707107, 0, 0.0231142, -1.18314 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+ring_sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/bath_1/furniture/shower/tubfaucet2/faucet2"]
+transform = Transform( 1, 2.84217e-14, -2.98023e-08, 0, 1, 2.4869e-14, 2.98023e-08, 0, 1, -0.0236359, 9.53674e-07, 0.225015 )
+operation = 2
+width = 0.4
+height = 0.1
+depth = 0.4
+
+[node name="CSGCylinder" type="CSGCylinder" parent="House/rooms/bath_1/furniture/shower/tubfaucet2/faucet2"]
+transform = Transform( -1, 3.25841e-07, 0, 5.30863e-14, 1.62921e-07, -1, -3.25841e-07, -1, -1.62921e-07, 0.122, 0, 0 )
+radius = 0.1
+height = 0.1
+cone = true
+material = ExtResource( 21 )
+
+[node name="CSGCylinder3" type="CSGCylinder" parent="House/rooms/bath_1/furniture/shower/tubfaucet2"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.2, 0, 0 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="CSGCylinder4" type="CSGCylinder" parent="House/rooms/bath_1/furniture/shower/tubfaucet2"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.2, 0, 0 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="drain" type="CSGCylinder" parent="House/rooms/bath_1/furniture/shower/tubfaucet2"]
+transform = Transform( -1, 0, -3.25841e-07, 3.25841e-07, -1.62921e-07, -1, -5.30863e-14, -1, 1.62921e-07, 0, 0.424945, 0.950155 )
+radius = 0.1
+height = 0.1
+material = ExtResource( 19 )
+
+[node name="bath1light1" type="OmniLight" parent="House/rooms/bath_1/furniture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2882, 4.16413, -12.8261 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+light_specular = 0.1
+light_bake_mode = 0
+shadow_enabled = true
+
+[node name="attic" type="CSGBox" parent="House/rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.161, 6.45044, -7.256 )
+use_collision = true
+width = 5.615
+height = 3.6
+depth = 14.3
+material = ExtResource( 6 )
+
+[node name="upstairs" type="CSGBox" parent="House/rooms/attic"]
+operation = 2
+calculate_tangents = false
+width = 5.515
+height = 3.5
+depth = 14.2
+material = ExtResource( 6 )
+
+[node name="upstairs cutout2" type="CSGBox" parent="House/rooms/attic"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.18585, -2.05654, -0.124579 )
+operation = 2
+calculate_tangents = false
+width = 1.0
+height = 1.0
+depth = 3.5
+material = ExtResource( 6 )
+
+[node name="win_cut_attic_south" type="CSGBox" parent="House/rooms/attic"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0167065, -0.4132, 7.22919 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.75
+material = ExtResource( 6 )
+
+[node name="win_cut_attic_north" type="CSGBox" parent="House/rooms/attic"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0167065, -0.4132, -7.1757 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="furiture" type="Spatial" parent="House/rooms/attic"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.161, -6.45044, 7.256 )
+
+[node name="attic_light" type="OmniLight" parent="House/rooms/attic/furiture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.221168, 8.00861, -6.66473 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+light_specular = 0.1
+light_bake_mode = 0
+shadow_enabled = true
+
+[node name="bannister" type="Spatial" parent="House/rooms/attic/furiture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.42625, 5.60832, -7.14483 )
+
+[node name="bars" type="Spatial" parent="House/rooms/attic/furiture/bannister"]
+
+[node name="CSGCylinder" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.695757, -0.418368, 1.39806 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder2" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, 0.998 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder3" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.695757, -0.418368, 0.598 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder4" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, 0.198 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder5" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -0.202 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder6" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -0.602 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder7" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -1.002 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder8" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -1.402 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder9" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -1.802 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder10" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -2.202 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder12" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.53756, -0.418368, 1.39806 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder13" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, 0.998 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder14" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.53756, -0.418368, 0.598 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder15" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, 0.198 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder16" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -0.202 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder17" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -0.602 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder18" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -1.002 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder19" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -1.402 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder20" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -1.802 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder21" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -2.202 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder11" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.296, -0.418, -2.202 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGCylinder22" type="CSGCylinder" parent="House/rooms/attic/furiture/bannister/bars"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104, -0.418, -2.202 )
+radius = 0.025
+material = ExtResource( 4 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/attic/furiture/bannister"]
+transform = Transform( 0.0694757, 0, 0, 0, 0.0665064, 0, 0, 0, 1.91358, -0.699794, 0.0389237, -0.354748 )
+use_collision = true
+material = ExtResource( 4 )
+
+[node name="CSGBox2" type="CSGBox" parent="House/rooms/attic/furiture/bannister"]
+transform = Transform( 0.0694757, 0, 0, 0, 0.0665064, 0, 0, 0, 1.91358, 0.532077, 0.0389237, -0.354748 )
+use_collision = true
+material = ExtResource( 4 )
+
+[node name="CSGBox3" type="CSGBox" parent="House/rooms/attic/furiture/bannister"]
+transform = Transform( 0.692, 0, 0, 0, 0.067, 0, 0, 0, 0.075, -0.0837641, 0.0389237, -2.20287 )
+use_collision = true
+material = ExtResource( 4 )
+
+[node name="bedroom" type="CSGBox" parent="House/rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.37277, 2.70044, -8.86601 )
+use_collision = true
+width = 6.2
+height = 3.6
+depth = 5.1
+material = ExtResource( 6 )
+
+[node name="bedroom_int" type="CSGBox" parent="House/rooms/bedroom"]
+operation = 2
+width = 6.1
+height = 3.5
+depth = 5.0
+material = ExtResource( 6 )
+
+[node name="bed_door_cut2" type="CSGBox" parent="House/rooms/bedroom"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.83877, -0.655129, 2.61544 )
+operation = 2
+width = 1.4
+height = 2.1
+depth = 0.25
+material = ExtResource( 6 )
+
+[node name="bath2_door_cut" type="CSGBox" parent="House/rooms/bedroom"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.37703, -0.655129, -2.56219 )
+operation = 2
+width = 1.4
+height = 2.1
+depth = 0.25
+material = ExtResource( 6 )
+
+[node name="closet_door_dut" type="CSGBox" parent="House/rooms/bedroom"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.97057, -0.655129, -2.56219 )
+operation = 2
+width = 1.4
+height = 2.1
+depth = 0.25
+material = ExtResource( 6 )
+
+[node name="win_cut_bed" type="CSGBox" parent="House/rooms/bedroom"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -3.125, -0.16409, -0.32139 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="furniture" type="Spatial" parent="House/rooms/bedroom"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.93412, -1.59417, -0.14992 )
+
+[node name="bed" type="CSGBox" parent="House/rooms/bedroom/furniture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.545857, 0.0789198, 0.420075 )
+use_collision = true
+width = 3.0
+height = 0.5
+material = ExtResource( 4 )
+
+[node name="headboard" type="CSGBox" parent="House/rooms/bedroom/furniture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.99078, 0.57475, 0.420075 )
+width = 0.1
+height = 0.5
+material = ExtResource( 4 )
+
+[node name="pillow1" type="CSGSphere" parent="House/rooms/bedroom/furniture"]
+transform = Transform( 1.69037, -0.258819, 0, 0.452933, 0.965926, 0, 0, 0, 2.75, 1.74251, 0.411483, -0.104075 )
+radius = 0.15
+radial_segments = 7
+rings = 5
+material = ExtResource( 4 )
+
+[node name="pillow2" type="CSGSphere" parent="House/rooms/bedroom/furniture"]
+transform = Transform( 1.69037, -0.258819, 0, 0.452933, 0.965926, 0, 0, 0, 2.75, 1.74251, 0.411483, 0.904796 )
+radius = 0.15
+radial_segments = 7
+rings = 5
+material = ExtResource( 4 )
+
+[node name="table" type="CSGBox" parent="House/rooms/bedroom/furniture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.629142, 0.687176, -2.08913 )
+width = 0.5
+height = 0.1
+depth = 0.5
+material = ExtResource( 4 )
+
+[node name="CSGBox4" type="CSGBox" parent="House/rooms/bedroom/furniture/table"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.197666, -0.400992, 0.199971 )
+width = 0.1
+height = 0.9
+depth = 0.1
+material = ExtResource( 4 )
+
+[node name="CSGBox5" type="CSGBox" parent="House/rooms/bedroom/furniture/table"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.198, -0.401, 0.2 )
+width = 0.1
+height = 0.9
+depth = 0.1
+material = ExtResource( 4 )
+
+[node name="CSGBox6" type="CSGBox" parent="House/rooms/bedroom/furniture/table"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.197666, -0.400992, -0.2 )
+width = 0.1
+height = 0.9
+depth = 0.1
+material = ExtResource( 4 )
+
+[node name="CSGBox7" type="CSGBox" parent="House/rooms/bedroom/furniture/table"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.198, -0.401, -0.2 )
+width = 0.1
+height = 0.9
+depth = 0.1
+material = ExtResource( 4 )
+
+[node name="lamp" type="Spatial" parent="House/rooms/bedroom/furniture"]
+
+[node name="CSGSphere" type="CSGSphere" parent="House/rooms/bedroom/furniture/lamp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.620122, 0.828795, -2.03145 )
+radius = 0.09
+
+[node name="CSGPolygon" type="CSGPolygon" parent="House/rooms/bedroom/furniture/lamp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.61653, 0.472636, -2.05566 )
+polygon = PoolVector2Array( 0.065196, 0.652975, 0.0668859, 0.662526, 0.158031, 0.809683, 0.260732, 0.520131 )
+mode = 1
+spin_degrees = 360.0
+spin_sides = 16
+material = ExtResource( 4 )
+
+[node name="bed_lamp" type="OmniLight" parent="House/rooms/bedroom/furniture/lamp"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.620105, 1.12743, -2.05363 )
+light_specular = 0.1
+light_bake_mode = 0
+shadow_enabled = true
+
+[node name="bed_light" type="OmniLight" parent="House/rooms/bedroom/furniture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.00988, 3.0912, 0.283019 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+light_specular = 0.1
+light_bake_mode = 0
+shadow_enabled = true
+
+[node name="bath_2" type="CSGBox" parent="House/rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.42856, 2.70044, -12.9483 )
+use_collision = true
+width = 3.95
+height = 3.6
+depth = 3.1
+material = ExtResource( 6 )
+
+[node name="bath2" type="CSGBox" parent="House/rooms/bath_2"]
+operation = 2
 width = 3.85
 height = 3.5
 depth = 3.0
 material = ExtResource( 6 )
 
-[node name="bath2_door" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.7498, 0.794871, -11.4282 )
+[node name="bath2_door_cut2" type="CSGBox" parent="House/rooms/bath_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.321239, -0.655129, 1.5201 )
+operation = 2
 width = 1.4
 height = 2.1
 depth = 0.25
 material = ExtResource( 6 )
 
-[node name="walkin_closet" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0031538, 1.45, -12.9483 )
+[node name="win_cut_bath_2" type="CSGBox" parent="House/rooms/bath_2"]
+transform = Transform( 0.75, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -0.909969, 0.35088, -1.5362 )
+operation = 2
+width = 1.4
+height = 1.4
+depth = 0.5
+material = ExtResource( 6 )
+
+[node name="funiture" type="Spatial" parent="House/rooms/bath_2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.42856, -2.70044, 12.9483 )
+
+[node name="Bath Counter2" type="CSGBox" parent="House/rooms/bath_2/funiture"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.00591, 1.9246, -12.2102 )
+use_collision = true
+width = 1.5
+height = 0.25
+depth = 0.7
+material = ExtResource( 4 )
+
+[node name="sink" type="CSGBox" parent="House/rooms/bath_2/funiture/Bath Counter2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0272579, 0.0879612, -2.86102e-06 )
+operation = 2
+width = 0.75
+height = 0.2
+depth = 0.5
+material = ExtResource( 21 )
+
+[node name="faucet" type="CSGTorus" parent="House/rooms/bath_2/funiture/Bath Counter2"]
+transform = Transform( -2.9733e-07, -1, 0, 1.79727, -1.60446e-07, -0.173648, 0.316908, -2.82909e-08, 0.984808, 0.0349646, 0.231521, -0.171736 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+ring_sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/bath_2/funiture/Bath Counter2/faucet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163665, 9.53674e-07, 0.127582 )
+operation = 2
+width = 0.4
+height = 0.1
+depth = 0.4
+
+[node name="CSGCylinder" type="CSGCylinder" parent="House/rooms/bath_2/funiture/Bath Counter2"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.118654, 0.136247, -0.289711 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="CSGCylinder2" type="CSGCylinder" parent="House/rooms/bath_2/funiture/Bath Counter2"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.205714, 0.136247, -0.289711 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="drain2" type="CSGCylinder" parent="House/rooms/bath_2/funiture/Bath Counter2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0532093, -0.0452455, -0.0317574 )
+radius = 0.05
+height = 0.1
+material = ExtResource( 19 )
+
+[node name="Tub" type="CSGBox" parent="House/rooms/bath_2/funiture"]
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -2.14927, 1.20157, -12.9794 )
+use_collision = true
+width = 3.0
+height = 1.0
+depth = 1.25
+material = ExtResource( 4 )
+
+[node name="tubcutout1" type="CSGCylinder" parent="House/rooms/bath_2/funiture/Tub"]
+transform = Transform( -1.62921e-07, 1, -8.74228e-08, 0, -4.37114e-08, -2, -1, -1.62921e-07, 1.4243e-14, 0, 0.431732, 0.0374575 )
+operation = 2
+radius = 0.5
+height = 1.8
+sides = 16
+material = ExtResource( 21 )
+
+[node name="tubcutout2" type="CSGSphere" parent="House/rooms/bath_2/funiture/Tub"]
+transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 1, 0.9, 0.301923, 0.0374575 )
+operation = 2
+radius = 0.5
+radial_segments = 16
+rings = 16
+material = ExtResource( 21 )
+
+[node name="tubcutout3" type="CSGSphere" parent="House/rooms/bath_2/funiture/Tub"]
+transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 1, -0.9, 0.301923, 0.0374422 )
+operation = 2
+radius = 0.5
+radial_segments = 16
+rings = 16
+material = ExtResource( 21 )
+
+[node name="tub_bottom" type="CSGBox" parent="House/rooms/bath_2/funiture/Tub"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.253303, 0.0485239 )
+width = 3.0
+height = 0.2
+depth = 1.0
+material = ExtResource( 21 )
+
+[node name="tubfaucet" type="Spatial" parent="House/rooms/bath_2/funiture/Tub"]
+transform = Transform( -1, 3.25841e-07, -5.30863e-14, 0, -1.62921e-07, -1, -3.25841e-07, -1, 1.62921e-07, 0, 0.787345, 0.618149 )
+
+[node name="faucet2" type="CSGTorus" parent="House/rooms/bath_2/funiture/Tub/tubfaucet"]
+transform = Transform( -2.9733e-07, -1, 0, 1.825, -1.62921e-07, -4.32443e-21, -1.57841e-20, 0, 1, 0, 0, 0 )
+inner_radius = 0.1
+outer_radius = 0.15
+sides = 16
+ring_sides = 16
+material = ExtResource( 19 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/bath_2/funiture/Tub/tubfaucet/faucet2"]
+transform = Transform( 1, 2.84217e-14, -2.98023e-08, 0, 1, 2.4869e-14, 2.98023e-08, 0, 1, -0.0236359, 9.53674e-07, 0.225015 )
+operation = 2
+width = 0.4
+height = 0.1
+depth = 0.4
+
+[node name="CSGCylinder3" type="CSGCylinder" parent="House/rooms/bath_2/funiture/Tub/tubfaucet"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.2, 0, 0 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="CSGCylinder4" type="CSGCylinder" parent="House/rooms/bath_2/funiture/Tub/tubfaucet"]
+transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.2, 0, 0 )
+radius = 0.05
+height = 0.1
+cone = true
+material = ExtResource( 19 )
+
+[node name="drain" type="CSGCylinder" parent="House/rooms/bath_2/funiture/Tub/tubfaucet"]
+transform = Transform( -1, 0, -3.25841e-07, 3.25841e-07, -1.62921e-07, -1, -5.30863e-14, -1, 1.62921e-07, 0, 0.424945, 0.950155 )
+radius = 0.1
+height = 0.1
+material = ExtResource( 19 )
+
+[node name="Toilet" type="Spatial" parent="House/rooms/bath_2/funiture"]
+transform = Transform( 1.279, 0, 0, 0, 1, 0, 0, 0, 1, -4.61589, 1.59433, -13.5658 )
+
+[node name="CSGBox2" type="CSGBox" parent="House/rooms/bath_2/funiture/Toilet"]
+transform = Transform( 0.781861, 0, 0, 0, 1, 0, 0, 0, 1, -0.342848, 0.236403, -0.0129776 )
+use_collision = true
+width = 0.2
+height = 0.585
+depth = 0.584
+material = ExtResource( 21 )
+
+[node name="CSGBox3" type="CSGBox" parent="House/rooms/bath_2/funiture/Toilet"]
+transform = Transform( 0.781861, 0, 0, 0, 1, 0, 0, 0, 1, -0.342848, 0.542796, -0.0129776 )
+use_collision = true
+width = 0.25
+height = 0.055
+depth = 0.6
+material = ExtResource( 21 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="House/rooms/bath_2/funiture/Toilet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0835094, -0.40322, 0 )
+use_collision = true
+radius = 0.2
+height = 0.4
+material = ExtResource( 21 )
+
+[node name="bowl" type="CSGSphere" parent="House/rooms/bath_2/funiture/Toilet"]
+use_collision = true
+radius = 0.25
+material = ExtResource( 21 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/bath_2/funiture/Toilet/bowl"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.237985, 0 )
+operation = 2
+width = 0.5
+height = 0.5
+depth = 0.5
+material = ExtResource( 21 )
+
+[node name="lid" type="CSGSphere" parent="House/rooms/bath_2/funiture/Toilet"]
+transform = Transform( 1.247, 0, 0, 0, 1, 0, 0, 0, 1.215, 0, -0.149881, 0 )
+use_collision = true
+radius = 0.25
+material = ExtResource( 21 )
+
+[node name="CSGBox" type="CSGBox" parent="House/rooms/bath_2/funiture/Toilet/lid"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.101877, 0 )
+operation = 2
+width = 0.5
+height = 0.5
+depth = 0.5
+material = ExtResource( 21 )
+
+[node name="bath2light" type="OmniLight" parent="House/rooms/bath_2/funiture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.92127, 4.24724, -13.0683 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+light_specular = 0.1
+light_bake_mode = 0
+shadow_enabled = true
+
+[node name="bath2light2" type="OmniLight" parent="House/rooms/bath_2/funiture"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0231, 3.36385, -12.2888 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+light_specular = 0.1
+light_bake_mode = 0
+shadow_enabled = true
+
+[node name="walkin_closet" type="CSGBox" parent="House/rooms"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0031538, 2.70044, -12.9483 )
+use_collision = true
+width = 2.6
+height = 3.6
+depth = 3.1
+material = ExtResource( 6 )
+
+[node name="walkin_closet" type="CSGBox" parent="House/rooms/walkin_closet"]
+operation = 2
 width = 2.5
 height = 3.5
 depth = 3.0
 material = ExtResource( 6 )
 
-[node name="bath2_door2" type="CSGBox" parent="House/House Exterior/Rooms"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.402205, 0.794871, -11.4282 )
+[node name="closet_door_dut2" type="CSGBox" parent="House/rooms/walkin_closet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.405358, -0.655129, 1.5201 )
+operation = 2
 width = 1.4
 height = 2.1
 depth = 0.25
 material = ExtResource( 6 )
 
-[node name="WindowCuts" type="CSGCombiner" parent="House/House Exterior"]
-operation = 2
+[node name="closet_light2" type="OmniLight" parent="House/rooms/walkin_closet"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00662613, 1.48922, 0.107301 )
+light_color = Color( 1, 1, 0.886275, 1 )
+light_energy = 2.0
+light_specular = 0.1
+light_bake_mode = 0
+shadow_enabled = true
 
-[node name="Window1" type="CSGBox" parent="House/House Exterior/WindowCuts"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.00058, 1.3187, -0.0840058 )
-width = 1.4
-height = 1.4
-depth = 0.5
-material = ExtResource( 6 )
+[node name="windows" type="Spatial" parent="House"]
 
-[node name="Window2" type="CSGBox" parent="House/House Exterior/WindowCuts"]
-transform = Transform( -1.95505e-07, 0, 1, 0, 0.8, 0, -1.2, 0, -1.62921e-07, 5.53843, 1.64771, -1.32731 )
-width = 1.4
-height = 1.4
-depth = 0.5
-material = ExtResource( 6 )
-
-[node name="Window3" type="CSGBox" parent="House/House Exterior/WindowCuts"]
-transform = Transform( -3.25841e-07, 0, 1, 0, 1, 0, -2, 0, -1.62921e-07, 5.43749, 1.28591, -7.51133 )
-width = 1.4
-height = 1.4
-depth = 0.5
-material = ExtResource( 6 )
-
-[node name="Window4" type="CSGBox" parent="House/House Exterior/WindowCuts"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.56466, 1.28591, -0.0840058 )
-width = 1.4
-height = 1.4
-depth = 0.5
-material = ExtResource( 6 )
-
-[node name="Window5" type="CSGBox" parent="House/House Exterior/WindowCuts"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49777, 1.28591, -1.73457 )
-width = 1.4
-height = 1.4
-depth = 0.5
-material = ExtResource( 6 )
-
-[node name="Window6" type="CSGBox" parent="House/House Exterior/WindowCuts"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49777, 1.28591, -9.1874 )
-width = 1.4
-height = 1.4
-depth = 0.5
-material = ExtResource( 6 )
-
-[node name="Window7" type="CSGBox" parent="House/House Exterior/WindowCuts"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.177707, 4.7868, -0.0840058 )
-width = 1.4
-height = 1.4
-depth = 0.5
-material = ExtResource( 6 )
-
-[node name="Window8" type="CSGBox" parent="House/House Exterior/WindowCuts"]
-transform = Transform( 0.75, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 3.97197, 1.80088, -14.4118 )
-width = 1.4
-height = 1.4
-depth = 0.5
-material = ExtResource( 6 )
-
-[node name="Window9" type="CSGBox" parent="House/House Exterior/WindowCuts"]
-transform = Transform( 0.75, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -4.33853, 1.80088, -14.4845 )
-width = 1.4
-height = 1.4
-depth = 0.5
-material = ExtResource( 6 )
-
-[node name="Window10" type="CSGBox" parent="House/House Exterior/WindowCuts"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.177707, 4.7868, -14.4317 )
-width = 1.4
-height = 1.4
-depth = 0.5
-material = ExtResource( 6 )
-
-[node name="Windows" type="Spatial" parent="House"]
-
-[node name="Window1" parent="House/Windows" instance=ExtResource( 18 )]
+[node name="win_kitchen_south" parent="House/windows" instance=ExtResource( 18 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 3.00109, 2.55846, -0.0878232 )
 
-[node name="Window2" parent="House/Windows" instance=ExtResource( 18 )]
+[node name="win_kitchen_east" parent="House/windows" instance=ExtResource( 18 )]
 transform = Transform( 1.43099e-08, 0, -1, 0, 0.8, 0, 1.2, 0, 1.19249e-08, 5.48243, 2.90021, -1.32619 )
 
-[node name="Window3" parent="House/Windows" instance=ExtResource( 18 )]
+[node name="win_util" parent="House/windows" instance=ExtResource( 18 )]
 transform = Transform( -3.25841e-07, 3.25841e-07, -1, -1, 3.25841e-07, 3.25841e-07, 1.62921e-07, 2, 1.62921e-07, 5.48643, 2.53354, -7.51567 )
 
-[node name="Window4" parent="House/Windows" instance=ExtResource( 18 )]
+[node name="win_great_south" parent="House/windows" instance=ExtResource( 18 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, -3.56415, 2.52568, -0.0878232 )
 
-[node name="Window5" parent="House/Windows" instance=ExtResource( 18 )]
+[node name="win_great_west" parent="House/windows" instance=ExtResource( 18 )]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49726, 2.52568, -1.73839 )
 
-[node name="Window6" parent="House/Windows" instance=ExtResource( 18 )]
+[node name="win_bed" parent="House/windows" instance=ExtResource( 18 )]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.49726, 2.52568, -9.19122 )
 
-[node name="Window7" parent="House/Windows" instance=ExtResource( 18 )]
+[node name="win_attic_south" parent="House/windows" instance=ExtResource( 18 )]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.178217, 6.02656, -0.0878232 )
 
-[node name="Window8" parent="House/Windows" instance=ExtResource( 18 )]
+[node name="win_bath_1" parent="House/windows" instance=ExtResource( 18 )]
 transform = Transform( 0.75, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 3.97248, 3.04064, -14.4156 )
 
-[node name="Window9" parent="House/Windows" instance=ExtResource( 18 )]
+[node name="win_bath_2" parent="House/windows" instance=ExtResource( 18 )]
 transform = Transform( 0.75, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -4.33802, 3.04064, -14.4883 )
 
-[node name="Window10" parent="House/Windows" instance=ExtResource( 18 )]
+[node name="win_attic_north" parent="House/windows" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.178217, 6.02656, -14.4355 )
 
-[node name="Parts" type="Spatial" parent="House"]
+[node name="stairs" type="Spatial" parent="House"]
 
-[node name="StairCase" parent="House/Parts" instance=ExtResource( 15 )]
+[node name="StairCase" parent="House/stairs" instance=ExtResource( 15 )]
 transform = Transform( -1.32943e-07, 0, -1, 0, 0.91, 0, 0.816, 0, -1.62921e-07, 0.858624, 0.940933, -10.0121 )
 
-[node name="Step" type="CSGBox" parent="House/Parts"]
+[node name="Step" type="CSGBox" parent="House/stairs"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.821744, 2.79892 )
 use_collision = true
 width = 2.25
@@ -482,16 +1636,16 @@ height = 0.15
 depth = 0.5
 material = SubResource( 10 )
 
-[node name="StaticBody" type="StaticBody" parent="House/Parts/Step"]
+[node name="StaticBody" type="StaticBody" parent="House/stairs/Step"]
 transform = Transform( 1, 0, 0, 0, 0.22989, -0.257007, 0, 0.0615989, 0.959164, 0, -0.377449, 0.766112 )
 collision_layer = 3
 
-[node name="CollisionShape" type="CollisionShape" parent="House/Parts/Step/StaticBody"]
+[node name="CollisionShape" type="CollisionShape" parent="House/stairs/Step/StaticBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, -3.72529e-09, 1, 0, 0, 0 )
 shape = SubResource( 11 )
 disabled = true
 
-[node name="Step2" type="CSGBox" parent="House/Parts"]
+[node name="Step2" type="CSGBox" parent="House/stairs"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.681744, 3.04892 )
 use_collision = true
 width = 2.25
@@ -499,7 +1653,7 @@ height = 0.15
 depth = 1.0
 material = SubResource( 10 )
 
-[node name="Step3" type="CSGBox" parent="House/Parts"]
+[node name="Step3" type="CSGBox" parent="House/stairs"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.129537, 0.797659, 1.26803 )
 use_collision = true
 width = 4.0
@@ -507,59 +1661,38 @@ height = 0.35
 depth = 2.75
 material = SubResource( 10 )
 
-[node name="porch" type="CSGPolygon" parent="House/Parts"]
+[node name="porch" type="CSGPolygon" parent="House/stairs"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.125, 3.5, 2.45999 )
 use_collision = true
 polygon = PoolVector2Array( -2, 0, 0, 1, 2, 0 )
 depth = 2.5
 material = ExtResource( 17 )
 
-[node name="CSGCylinder" type="CSGCylinder" parent="House/Parts/porch"]
+[node name="CSGCylinder" type="CSGCylinder" parent="House/stairs/porch"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.8, -1.7, -0.15 )
 radius = 0.1
 height = 3.5
 material = ExtResource( 17 )
 
-[node name="CSGCylinder2" type="CSGCylinder" parent="House/Parts/porch"]
+[node name="CSGCylinder2" type="CSGCylinder" parent="House/stairs/porch"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.8, -1.7, -0.15 )
 radius = 0.1
 height = 3.5
 material = ExtResource( 17 )
 
-[node name="CSGCylinder3" type="CSGCylinder" parent="House/Parts/porch"]
+[node name="CSGCylinder3" type="CSGCylinder" parent="House/stairs/porch"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.27047 )
 operation = 2
 radius = 0.2
 height = 0.25
 material = SubResource( 12 )
 
-[node name="PorchLight" type="OmniLight" parent="House/Parts/porch"]
+[node name="PorchLight" type="OmniLight" parent="House/stairs/porch"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0132132, 0.0500901, -1.21504 )
 light_color = Color( 0.968627, 0.952941, 0, 1 )
 light_specular = 0.1
 light_bake_mode = 0
 shadow_enabled = true
-
-[node name="Doors" type="Spatial" parent="House/Parts"]
-
-[node name="front_door" parent="House/Parts/Doors" instance=ExtResource( 16 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.702999, 2.05762, -0.159389 )
-
-[node name="bed_door" parent="House/Parts/Doors" instance=ExtResource( 16 )]
-transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, 1, -4.90333, 2.05762, -6.36265 )
-open_angle = -90.0
-
-[node name="bathdoor1" parent="House/Parts/Doors" instance=ExtResource( 16 )]
-transform = Transform( 1, 0, 0, 0, 1, -8.74228e-08, 0, 8.74228e-08, 1, 5.01718, 2.05762, -11.4497 )
-open_angle = -100.0
-
-[node name="bathdoor2" parent="House/Parts/Doors" instance=ExtResource( 16 )]
-transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, 1, -4.44766, 2.05762, -11.4697 )
-open_angle = -100.0
-
-[node name="closet" parent="House/Parts/Doors" instance=ExtResource( 16 )]
-transform = Transform( 1, 0, 0, 0, 1, -8.74228e-08, 0, 8.74228e-08, 1, 0.287704, 2.05762, -11.4697 )
-open_angle = -100.0
 
 [node name="Garage" type="CSGBox" parent="House"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.9512, 0, 0 )
@@ -627,925 +1760,26 @@ height = 1.99
 depth = 1.99
 material = ExtResource( 2 )
 
-[node name="Kitchen" type="Spatial" parent="House"]
+[node name="Doors" type="Spatial" parent="House"]
 
-[node name="fridge" type="CSGBox" parent="House/Kitchen"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 3.60351, 1.99809, -4.51167 )
-use_collision = true
-width = 0.75
-depth = 1.5
-material = ExtResource( 19 )
+[node name="front_door" parent="House/Doors" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.702999, 2.05762, -0.159389 )
 
-[node name="LeftDoor" type="CSGBox" parent="House/Kitchen/fridge"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.447441, 0, -0.375 )
-width = 0.1
-depth = 0.74
-material = ExtResource( 19 )
+[node name="bed_door" parent="House/Doors" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, 1, -4.90333, 2.05762, -6.36265 )
+open_angle = -90.0
 
-[node name="CSGTorus" type="CSGTorus" parent="House/Kitchen/fridge/LeftDoor"]
-transform = Transform( 7.00208e-14, 1.62921e-07, 1, 2.638, -1.62921e-07, 0, 4.29785e-07, 1, -1.62921e-07, -0.055, 0, 0.3 )
-inner_radius = 0.1
-outer_radius = 0.15
-sides = 16
-material = ExtResource( 19 )
+[node name="bathdoor1" parent="House/Doors" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, -8.74228e-08, 0, 8.74228e-08, 1, 5.01718, 2.05762, -11.4497 )
+open_angle = -100.0
 
-[node name="CSGBox" type="CSGBox" parent="House/Kitchen/fridge/LeftDoor/CSGTorus"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111994, 0, 0.174598 )
-operation = 2
-width = 0.4
-height = 0.196
-depth = 0.334
+[node name="bathdoor2" parent="House/Doors" instance=ExtResource( 16 )]
+transform = Transform( -1, 0, 0, 0, 1, 0, 0, 0, 1, -4.44766, 2.05762, -11.4697 )
+open_angle = -100.0
 
-[node name="LeftDoor2" type="CSGBox" parent="House/Kitchen/fridge"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.447441, 0, 0.375 )
-width = 0.1
-depth = 0.74
-material = ExtResource( 19 )
-
-[node name="CSGTorus2" type="CSGTorus" parent="House/Kitchen/fridge/LeftDoor2"]
-transform = Transform( 7.00208e-14, 1.62921e-07, 1, 2.638, -1.62921e-07, 0, 4.29785e-07, 1, -1.62921e-07, -0.055, 0, -0.3 )
-inner_radius = 0.1
-outer_radius = 0.15
-sides = 16
-material = ExtResource( 19 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Kitchen/fridge/LeftDoor2/CSGTorus2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111994, 0, 0.174598 )
-operation = 2
-width = 0.4
-height = 0.196
-depth = 0.334
-
-[node name="Kitchen Counter" type="CSGBox" parent="House/Kitchen"]
-transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 4.88155, 1.45846, -1.0865 )
-use_collision = true
-width = 1.75
-height = 1.0
-depth = 1.0
-material = ExtResource( 4 )
-
-[node name="sink" type="CSGBox" parent="House/Kitchen/Kitchen Counter"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0931664, 0.239475, -2.86102e-06 )
-operation = 2
-width = 0.75
-height = 0.75
-depth = 0.5
-material = ExtResource( 21 )
-
-[node name="faucet" type="CSGTorus" parent="House/Kitchen/Kitchen Counter"]
-transform = Transform( -2.9733e-07, -1, 0, 1.79727, -1.60446e-07, -0.173648, 0.316908, -2.82909e-08, 0.984808, 0.100873, 0.602587, -0.171736 )
-inner_radius = 0.1
-outer_radius = 0.15
-sides = 16
-ring_sides = 16
-material = ExtResource( 19 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Kitchen/Kitchen Counter/faucet"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163665, 9.53674e-07, 0.127582 )
-operation = 2
-width = 0.4
-height = 0.1
-depth = 0.4
-
-[node name="CSGCylinder" type="CSGCylinder" parent="House/Kitchen/Kitchen Counter"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.0527463, 0.507313, -0.289711 )
-radius = 0.05
-height = 0.1
-cone = true
-material = ExtResource( 19 )
-
-[node name="drain3" type="CSGCylinder" parent="House/Kitchen/Kitchen Counter"]
-transform = Transform( -1, 0, -3.25842e-07, 0, 1, 0, 3.25842e-07, 0, -1, 0.116521, -0.152596, -0.170553 )
-radius = 0.05
-height = 0.1
-material = ExtResource( 19 )
-
-[node name="CSGCylinder2" type="CSGCylinder" parent="House/Kitchen/Kitchen Counter"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.271623, 0.507313, -0.289711 )
-radius = 0.05
-height = 0.1
-cone = true
-material = ExtResource( 19 )
-
-[node name="Stove" type="CSGBox" parent="House/Kitchen"]
-transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 4.90335, 1.45846, -2.65917 )
-use_collision = true
-width = 1.25
-height = 1.0
-depth = 0.95
-material = ExtResource( 4 )
-
-[node name="compartment" type="CSGBox" parent="House/Kitchen/Stove"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.123229 )
-operation = 2
-use_collision = true
-width = 0.75
-height = 0.75
-depth = 0.75
-material = ExtResource( 20 )
-
-[node name="burner" type="CSGCylinder" parent="House/Kitchen/Stove"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.285619, 0.518919, 0.247808 )
-radius = 0.2
-height = 0.01
-material = ExtResource( 20 )
-
-[node name="burner2" type="CSGCylinder" parent="House/Kitchen/Stove"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.304525, 0.518919, 0.24781 )
-radius = 0.15
-height = 0.01
-material = ExtResource( 20 )
-
-[node name="burner3" type="CSGCylinder" parent="House/Kitchen/Stove"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.305, 0.519, -0.141701 )
-radius = 0.2
-height = 0.01
-material = ExtResource( 20 )
-
-[node name="burner4" type="CSGCylinder" parent="House/Kitchen/Stove"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.286, 0.519, -0.141702 )
-radius = 0.15
-height = 0.01
-material = ExtResource( 20 )
-
-[node name="door" type="CSGBox" parent="House/Kitchen/Stove"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.519248 )
-use_collision = true
-width = 1.2
-height = 0.95
-depth = 0.05
-material = ExtResource( 4 )
-
-[node name="CSGTorus2" type="CSGTorus" parent="House/Kitchen/Stove/door"]
-transform = Transform( -2.638, 0, -3.25841e-07, 0, 1, 0, 8.5957e-07, 0, -1, 0, 0.409236, 0.0363979 )
-inner_radius = 0.1
-outer_radius = 0.15
-sides = 16
-material = ExtResource( 19 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Kitchen/Stove/door/CSGTorus2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0111994, 0, 0.174598 )
-operation = 2
-width = 0.4
-height = 0.196
-depth = 0.334
-
-[node name="Windowcut" type="CSGBox" parent="House/Kitchen/Stove/door"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0454943, -0.0507627 )
-operation = 2
-use_collision = true
-width = 0.7
-height = 0.6
-depth = 0.2
-material = ExtResource( 4 )
-
-[node name="window" type="Spatial" parent="House/Kitchen/Stove/door"]
-
-[node name="pane" type="CSGBox" parent="House/Kitchen/Stove/door/window"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0454943, -0.0507627 )
-use_collision = true
-width = 0.7
-height = 0.6
-depth = 0.2
-material = ExtResource( 2 )
-
-[node name="controls" type="CSGBox" parent="House/Kitchen/Stove"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.607763, -0.433671 )
-width = 1.25
-height = 0.2
-depth = 0.1
-material = ExtResource( 4 )
-
-[node name="knob" type="CSGCylinder" parent="House/Kitchen/Stove/controls"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, -0.447615, 0.0352073, 0.0808496 )
-radius = 0.05
-height = 0.1
-material = ExtResource( 4 )
-
-[node name="knob2" type="CSGCylinder" parent="House/Kitchen/Stove/controls"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, -0.313223, 0.0352073, 0.0808496 )
-radius = 0.05
-height = 0.1
-material = ExtResource( 4 )
-
-[node name="knob3" type="CSGCylinder" parent="House/Kitchen/Stove/controls"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0.303723, 0.0352073, 0.0808487 )
-radius = 0.05
-height = 0.1
-material = ExtResource( 4 )
-
-[node name="knob4" type="CSGCylinder" parent="House/Kitchen/Stove/controls"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0.438115, 0.0352073, 0.0808477 )
-radius = 0.05
-height = 0.1
-material = ExtResource( 4 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Kitchen/Stove/controls"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00597858, 0, 0.0154629 )
-width = 0.3
-height = 0.1
-depth = 0.1
-material = ExtResource( 20 )
-
-[node name="Kitchen Counter3" type="CSGBox" parent="House/Kitchen"]
-transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 4.88155, 1.45846, -4.10659 )
-use_collision = true
-width = 1.5
-height = 1.0
-depth = 1.0
-material = ExtResource( 4 )
-
-[node name="Room1Light1" type="OmniLight" parent="House/Kitchen"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2.43038, 4.19747, -2.00846 )
-light_color = Color( 1, 1, 0.886275, 1 )
-light_energy = 2.17
-light_specular = 0.1
-light_bake_mode = 0
-shadow_enabled = true
-shadow_bias = 0.05
-
-[node name="Bath1" type="Spatial" parent="House"]
-
-[node name="Bath Counter2" type="CSGBox" parent="House/Bath1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.12387, 1.9246, -14.1028 )
-use_collision = true
-width = 1.5
-height = 0.25
-depth = 0.7
-material = ExtResource( 4 )
-
-[node name="sink" type="CSGBox" parent="House/Bath1/Bath Counter2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0272579, 0.0879612, -2.86102e-06 )
-operation = 2
-width = 0.75
-height = 0.2
-depth = 0.5
-material = ExtResource( 21 )
-
-[node name="faucet" type="CSGTorus" parent="House/Bath1/Bath Counter2"]
-transform = Transform( -2.9733e-07, -1, 0, 1.79727, -1.60446e-07, -0.173648, 0.316908, -2.82909e-08, 0.984808, 0.0349646, 0.231521, -0.171736 )
-inner_radius = 0.1
-outer_radius = 0.15
-sides = 16
-ring_sides = 16
-material = ExtResource( 19 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Bath1/Bath Counter2/faucet"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163665, 9.53674e-07, 0.127582 )
-operation = 2
-width = 0.4
-height = 0.1
-depth = 0.4
-
-[node name="CSGCylinder" type="CSGCylinder" parent="House/Bath1/Bath Counter2"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.118654, 0.136247, -0.289711 )
-radius = 0.05
-height = 0.1
-cone = true
-material = ExtResource( 19 )
-
-[node name="CSGCylinder2" type="CSGCylinder" parent="House/Bath1/Bath Counter2"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.205714, 0.136247, -0.289711 )
-radius = 0.05
-height = 0.1
-cone = true
-material = ExtResource( 19 )
-
-[node name="drain2" type="CSGCylinder" parent="House/Bath1/Bath Counter2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0532093, -0.0452455, -0.0317574 )
-radius = 0.05
-height = 0.1
-material = ExtResource( 19 )
-
-[node name="Toilet" type="Spatial" parent="House/Bath1"]
-transform = Transform( 1.52519e-08, 0, -1, 0, 1, 0, 1.279, 0, 1.19249e-08, 2.77991, 1.59433, -13.8169 )
-
-[node name="CSGBox2" type="CSGBox" parent="House/Bath1/Toilet"]
-transform = Transform( 0.781861, 0, 0, 0, 1, 0, 0, 0, 1, -0.342848, 0.236403, -0.0129776 )
-use_collision = true
-width = 0.2
-height = 0.585
-depth = 0.584
-material = ExtResource( 21 )
-
-[node name="CSGBox3" type="CSGBox" parent="House/Bath1/Toilet"]
-transform = Transform( 0.781861, 0, 0, 0, 1, 0, 0, 0, 1, -0.342848, 0.542796, -0.0129776 )
-use_collision = true
-width = 0.25
-height = 0.055
-depth = 0.6
-material = ExtResource( 21 )
-
-[node name="CSGCylinder" type="CSGCylinder" parent="House/Bath1/Toilet"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0835094, -0.40322, 0 )
-use_collision = true
-radius = 0.2
-height = 0.4
-material = ExtResource( 21 )
-
-[node name="bowl" type="CSGSphere" parent="House/Bath1/Toilet"]
-use_collision = true
-radius = 0.25
-material = ExtResource( 21 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Bath1/Toilet/bowl"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.237985, 0 )
-operation = 2
-width = 0.5
-height = 0.5
-depth = 0.5
-material = ExtResource( 21 )
-
-[node name="lid" type="CSGSphere" parent="House/Bath1/Toilet"]
-transform = Transform( 1.247, 0, 0, 0, 1, 0, 0, 0, 1.215, 0, -0.149881, 0 )
-use_collision = true
-radius = 0.25
-material = ExtResource( 21 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Bath1/Toilet/lid"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.101877, 0 )
-operation = 2
-width = 0.5
-height = 0.5
-depth = 0.5
-material = ExtResource( 21 )
-
-[node name="shower" type="Spatial" parent="House/Bath1"]
-
-[node name="basin" type="CSGBox" parent="House/Bath1/shower"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9518, 1.00135, -11.9789 )
-width = 1.0
-height = 0.1
-depth = 1.0
-material = ExtResource( 21 )
-
-[node name="CSGBox2" type="CSGBox" parent="House/Bath1/shower/basin"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0174212, 0 )
-operation = 2
-width = 0.95
-height = 0.09
-depth = 0.95
-material = ExtResource( 21 )
-
-[node name="top" type="CSGBox" parent="House/Bath1/shower"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9518, 3.59408, -11.9789 )
-width = 1.0
-height = 0.1
-depth = 1.0
-material = ExtResource( 21 )
-
-[node name="CSGBox2" type="CSGBox" parent="House/Bath1/shower/top"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0413947, 0 )
-operation = 2
-width = 0.95
-height = 0.344
-depth = 0.95
-material = ExtResource( 21 )
-
-[node name="mid" type="CSGBox" parent="House/Bath1/shower"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9518, 2.19797, -11.9789 )
-width = 1.05
-height = 0.1
-depth = 1.05
-material = ExtResource( 21 )
-
-[node name="CSGBox2" type="CSGBox" parent="House/Bath1/shower/mid"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0413947, 0 )
-operation = 2
-width = 0.95
-height = 0.344
-depth = 0.95
-material = ExtResource( 21 )
-
-[node name="glass" type="CSGBox" parent="House/Bath1/shower"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.9518, 2.29231, -11.9789 )
-width = 1.0
-height = 2.5
-depth = 1.0
-material = SubResource( 13 )
-
-[node name="tubfaucet2" type="Spatial" parent="House/Bath1/shower"]
-transform = Transform( -1.62921e-07, 1, -1.62921e-07, 0, -1.62921e-07, -1, -1, -1.62921e-07, 2.65431e-14, 1.47129, 1.92893, -11.9987 )
-
-[node name="faucet2" type="CSGTorus" parent="House/Bath1/shower/tubfaucet2"]
-transform = Transform( -1.62921e-07, -1, -2.84217e-14, 0.707107, -1.15202e-07, 0.707107, -0.707107, 1.15202e-07, 0.707107, 0, 0.0231142, -1.18314 )
-inner_radius = 0.1
-outer_radius = 0.15
-sides = 16
-ring_sides = 16
-material = ExtResource( 19 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Bath1/shower/tubfaucet2/faucet2"]
-transform = Transform( 1, 2.84217e-14, -2.98023e-08, 0, 1, 2.4869e-14, 2.98023e-08, 0, 1, -0.0236359, 9.53674e-07, 0.225015 )
-operation = 2
-width = 0.4
-height = 0.1
-depth = 0.4
-
-[node name="CSGCylinder" type="CSGCylinder" parent="House/Bath1/shower/tubfaucet2/faucet2"]
-transform = Transform( -1, 3.25841e-07, 0, 5.30863e-14, 1.62921e-07, -1, -3.25841e-07, -1, -1.62921e-07, 0.122, 0, 0 )
-radius = 0.1
-height = 0.1
-cone = true
-material = ExtResource( 21 )
-
-[node name="CSGCylinder3" type="CSGCylinder" parent="House/Bath1/shower/tubfaucet2"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.2, 0, 0 )
-radius = 0.05
-height = 0.1
-cone = true
-material = ExtResource( 19 )
-
-[node name="CSGCylinder4" type="CSGCylinder" parent="House/Bath1/shower/tubfaucet2"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.2, 0, 0 )
-radius = 0.05
-height = 0.1
-cone = true
-material = ExtResource( 19 )
-
-[node name="drain" type="CSGCylinder" parent="House/Bath1/shower/tubfaucet2"]
-transform = Transform( -1, 0, -3.25841e-07, 3.25841e-07, -1.62921e-07, -1, -5.30863e-14, -1, 1.62921e-07, 0, 0.424945, 0.950155 )
-radius = 0.1
-height = 0.1
-material = ExtResource( 19 )
-
-[node name="bath1light1" type="OmniLight" parent="House/Bath1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.2882, 4.16413, -12.8261 )
-light_color = Color( 1, 1, 0.886275, 1 )
-light_energy = 2.0
-light_specular = 0.1
-light_bake_mode = 0
-shadow_enabled = true
-
-[node name="Bath2" type="Spatial" parent="House"]
-
-[node name="Bath Counter2" type="CSGBox" parent="House/Bath2"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -5.00591, 1.9246, -12.2102 )
-use_collision = true
-width = 1.5
-height = 0.25
-depth = 0.7
-material = ExtResource( 4 )
-
-[node name="sink" type="CSGBox" parent="House/Bath2/Bath Counter2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0272579, 0.0879612, -2.86102e-06 )
-operation = 2
-width = 0.75
-height = 0.2
-depth = 0.5
-material = ExtResource( 21 )
-
-[node name="faucet" type="CSGTorus" parent="House/Bath2/Bath Counter2"]
-transform = Transform( -2.9733e-07, -1, 0, 1.79727, -1.60446e-07, -0.173648, 0.316908, -2.82909e-08, 0.984808, 0.0349646, 0.231521, -0.171736 )
-inner_radius = 0.1
-outer_radius = 0.15
-sides = 16
-ring_sides = 16
-material = ExtResource( 19 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Bath2/Bath Counter2/faucet"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.163665, 9.53674e-07, 0.127582 )
-operation = 2
-width = 0.4
-height = 0.1
-depth = 0.4
-
-[node name="CSGCylinder" type="CSGCylinder" parent="House/Bath2/Bath Counter2"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.118654, 0.136247, -0.289711 )
-radius = 0.05
-height = 0.1
-cone = true
-material = ExtResource( 19 )
-
-[node name="CSGCylinder2" type="CSGCylinder" parent="House/Bath2/Bath Counter2"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.205714, 0.136247, -0.289711 )
-radius = 0.05
-height = 0.1
-cone = true
-material = ExtResource( 19 )
-
-[node name="drain2" type="CSGCylinder" parent="House/Bath2/Bath Counter2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0532093, -0.0452455, -0.0317574 )
-radius = 0.05
-height = 0.1
-material = ExtResource( 19 )
-
-[node name="Tub" type="CSGBox" parent="House/Bath2"]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, -2.14927, 1.20157, -12.9794 )
-use_collision = true
-width = 3.0
-height = 1.0
-depth = 1.25
-material = ExtResource( 4 )
-
-[node name="tubcutout1" type="CSGCylinder" parent="House/Bath2/Tub"]
-transform = Transform( -1.62921e-07, 1, -8.74228e-08, 0, -4.37114e-08, -2, -1, -1.62921e-07, 1.4243e-14, 0, 0.431732, 0.0374575 )
-operation = 2
-radius = 0.5
-height = 1.8
-sides = 16
-material = ExtResource( 21 )
-
-[node name="tubcutout2" type="CSGSphere" parent="House/Bath2/Tub"]
-transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 1, 0.9, 0.301923, 0.0374575 )
-operation = 2
-radius = 0.5
-radial_segments = 16
-rings = 16
-material = ExtResource( 21 )
-
-[node name="tubcutout3" type="CSGSphere" parent="House/Bath2/Tub"]
-transform = Transform( 1, 0, 0, 0, 2, 0, 0, 0, 1, -0.9, 0.301923, 0.0374422 )
-operation = 2
-radius = 0.5
-radial_segments = 16
-rings = 16
-material = ExtResource( 21 )
-
-[node name="tub_bottom" type="CSGBox" parent="House/Bath2/Tub"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.253303, 0.0485239 )
-width = 3.0
-height = 0.2
-depth = 1.0
-material = ExtResource( 21 )
-
-[node name="tubfaucet" type="Spatial" parent="House/Bath2/Tub"]
-transform = Transform( -1, 3.25841e-07, -5.30863e-14, 0, -1.62921e-07, -1, -3.25841e-07, -1, 1.62921e-07, 0, 0.787345, 0.618149 )
-
-[node name="faucet2" type="CSGTorus" parent="House/Bath2/Tub/tubfaucet"]
-transform = Transform( -2.9733e-07, -1, 0, 1.825, -1.62921e-07, -4.32443e-21, -1.57841e-20, 0, 1, 0, 0, 0 )
-inner_radius = 0.1
-outer_radius = 0.15
-sides = 16
-ring_sides = 16
-material = ExtResource( 19 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Bath2/Tub/tubfaucet/faucet2"]
-transform = Transform( 1, 2.84217e-14, -2.98023e-08, 0, 1, 2.4869e-14, 2.98023e-08, 0, 1, -0.0236359, 9.53674e-07, 0.225015 )
-operation = 2
-width = 0.4
-height = 0.1
-depth = 0.4
-
-[node name="CSGCylinder3" type="CSGCylinder" parent="House/Bath2/Tub/tubfaucet"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, 0.2, 0, 0 )
-radius = 0.05
-height = 0.1
-cone = true
-material = ExtResource( 19 )
-
-[node name="CSGCylinder4" type="CSGCylinder" parent="House/Bath2/Tub/tubfaucet"]
-transform = Transform( 1, 0, 0, 0, -1, 3.25841e-07, 0, -3.25841e-07, -1, -0.2, 0, 0 )
-radius = 0.05
-height = 0.1
-cone = true
-material = ExtResource( 19 )
-
-[node name="drain" type="CSGCylinder" parent="House/Bath2/Tub/tubfaucet"]
-transform = Transform( -1, 0, -3.25841e-07, 3.25841e-07, -1.62921e-07, -1, -5.30863e-14, -1, 1.62921e-07, 0, 0.424945, 0.950155 )
-radius = 0.1
-height = 0.1
-material = ExtResource( 19 )
-
-[node name="Toilet" type="Spatial" parent="House/Bath2"]
-transform = Transform( 1.279, 0, 0, 0, 1, 0, 0, 0, 1, -4.61589, 1.59433, -13.5658 )
-
-[node name="CSGBox2" type="CSGBox" parent="House/Bath2/Toilet"]
-transform = Transform( 0.781861, 0, 0, 0, 1, 0, 0, 0, 1, -0.342848, 0.236403, -0.0129776 )
-use_collision = true
-width = 0.2
-height = 0.585
-depth = 0.584
-material = ExtResource( 21 )
-
-[node name="CSGBox3" type="CSGBox" parent="House/Bath2/Toilet"]
-transform = Transform( 0.781861, 0, 0, 0, 1, 0, 0, 0, 1, -0.342848, 0.542796, -0.0129776 )
-use_collision = true
-width = 0.25
-height = 0.055
-depth = 0.6
-material = ExtResource( 21 )
-
-[node name="CSGCylinder" type="CSGCylinder" parent="House/Bath2/Toilet"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0835094, -0.40322, 0 )
-use_collision = true
-radius = 0.2
-height = 0.4
-material = ExtResource( 21 )
-
-[node name="bowl" type="CSGSphere" parent="House/Bath2/Toilet"]
-use_collision = true
-radius = 0.25
-material = ExtResource( 21 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Bath2/Toilet/bowl"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.237985, 0 )
-operation = 2
-width = 0.5
-height = 0.5
-depth = 0.5
-material = ExtResource( 21 )
-
-[node name="lid" type="CSGSphere" parent="House/Bath2/Toilet"]
-transform = Transform( 1.247, 0, 0, 0, 1, 0, 0, 0, 1.215, 0, -0.149881, 0 )
-use_collision = true
-radius = 0.25
-material = ExtResource( 21 )
-
-[node name="CSGBox" type="CSGBox" parent="House/Bath2/Toilet/lid"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.101877, 0 )
-operation = 2
-width = 0.5
-height = 0.5
-depth = 0.5
-material = ExtResource( 21 )
-
-[node name="bath2light" type="OmniLight" parent="House/Bath2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.92127, 4.24724, -13.0683 )
-light_color = Color( 1, 1, 0.886275, 1 )
-light_energy = 2.0
-light_specular = 0.1
-light_bake_mode = 0
-shadow_enabled = true
-
-[node name="bath2light2" type="OmniLight" parent="House/Bath2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -5.0231, 3.36385, -12.2888 )
-light_color = Color( 1, 1, 0.886275, 1 )
-light_energy = 2.0
-light_specular = 0.1
-light_bake_mode = 0
-shadow_enabled = true
-
-[node name="Bedroom" type="Spatial" parent="House"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.43865, 1.10627, -9.01593 )
-
-[node name="bed" type="CSGBox" parent="House/Bedroom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.545857, 0.0789198, 0.420075 )
-width = 3.0
-height = 0.5
-material = ExtResource( 4 )
-
-[node name="headboard" type="CSGBox" parent="House/Bedroom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.99078, 0.57475, 0.420075 )
-width = 0.1
-height = 0.5
-material = ExtResource( 4 )
-
-[node name="pillow1" type="CSGSphere" parent="House/Bedroom"]
-transform = Transform( 1.69037, -0.258819, 0, 0.452933, 0.965926, 0, 0, 0, 2.75, 1.74251, 0.411483, -0.104075 )
-radius = 0.15
-radial_segments = 7
-rings = 5
-material = ExtResource( 4 )
-
-[node name="pillow2" type="CSGSphere" parent="House/Bedroom"]
-transform = Transform( 1.69037, -0.258819, 0, 0.452933, 0.965926, 0, 0, 0, 2.75, 1.74251, 0.411483, 0.904796 )
-radius = 0.15
-radial_segments = 7
-rings = 5
-material = ExtResource( 4 )
-
-[node name="table" type="CSGBox" parent="House/Bedroom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.629142, 0.687176, -2.08913 )
-width = 0.5
-height = 0.1
-depth = 0.5
-material = ExtResource( 4 )
-
-[node name="CSGBox4" type="CSGBox" parent="House/Bedroom/table"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.197666, -0.400992, 0.199971 )
-width = 0.1
-height = 0.9
-depth = 0.1
-material = ExtResource( 4 )
-
-[node name="CSGBox5" type="CSGBox" parent="House/Bedroom/table"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.198, -0.401, 0.2 )
-width = 0.1
-height = 0.9
-depth = 0.1
-material = ExtResource( 4 )
-
-[node name="CSGBox6" type="CSGBox" parent="House/Bedroom/table"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.197666, -0.400992, -0.2 )
-width = 0.1
-height = 0.9
-depth = 0.1
-material = ExtResource( 4 )
-
-[node name="CSGBox7" type="CSGBox" parent="House/Bedroom/table"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.198, -0.401, -0.2 )
-width = 0.1
-height = 0.9
-depth = 0.1
-material = ExtResource( 4 )
-
-[node name="CSGSphere" type="CSGSphere" parent="House/Bedroom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.620122, 0.828795, -2.03145 )
-radius = 0.09
-
-[node name="CSGPolygon" type="CSGPolygon" parent="House/Bedroom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.61653, 0.391948, -2.05566 )
-polygon = PoolVector2Array( 0.0224476, 0.655923, 0.0113029, 0.703953, 0.158031, 0.809683, 0.260732, 0.520131 )
-mode = 1
-spin_degrees = 360.0
-spin_sides = 7
-material = ExtResource( 4 )
-
-[node name="bed_light" type="OmniLight" parent="House/Bedroom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.00988, 3.0912, 0.283019 )
-light_color = Color( 1, 1, 0.886275, 1 )
-light_energy = 2.0
-light_specular = 0.1
-light_bake_mode = 0
-shadow_enabled = true
-
-[node name="closet_light2" type="OmniLight" parent="House/Bedroom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.44843, 3.08339, -3.82507 )
-light_color = Color( 1, 1, 0.886275, 1 )
-light_energy = 2.0
-light_specular = 0.1
-light_bake_mode = 0
-shadow_enabled = true
-
-[node name="bed_lamp" type="OmniLight" parent="House/Bedroom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.595907, 1.08674, -1.77887 )
-light_specular = 0.1
-light_bake_mode = 0
-shadow_enabled = true
-
-[node name="greatroom" type="Spatial" parent="House"]
-
-[node name="Room1Light2" type="OmniLight" parent="House/greatroom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.44853, 4.19747, -2.00846 )
-light_color = Color( 1, 1, 0.886275, 1 )
-light_energy = 2.0
-light_specular = 0.1
-light_bake_mode = 0
-shadow_enabled = true
-shadow_bias = 0.03
-
-[node name="utilityRoom" type="Spatial" parent="House"]
-
-[node name="util_light" type="OmniLight" parent="House/utilityRoom"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.83036, 4.08698, -8.02602 )
-light_color = Color( 1, 1, 0.886275, 1 )
-light_energy = 2.0
-light_specular = 0.1
-light_bake_mode = 0
-shadow_enabled = true
-
-[node name="attic" type="Spatial" parent="House"]
-
-[node name="attic_light" type="OmniLight" parent="House/attic"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.221168, 8.00861, -6.66473 )
-light_color = Color( 1, 1, 0.886275, 1 )
-light_energy = 2.0
-light_specular = 0.1
-light_bake_mode = 0
-shadow_enabled = true
-
-[node name="bannister" type="Spatial" parent="House/attic"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.42625, 5.60832, -7.14483 )
-
-[node name="bars" type="Spatial" parent="House/attic/bannister"]
-
-[node name="CSGCylinder" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.695757, -0.418368, 1.39806 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder2" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, 0.998 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder3" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.695757, -0.418368, 0.598 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder4" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, 0.198 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder5" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -0.202 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder6" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -0.602 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder7" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -1.002 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder8" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -1.402 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder9" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -1.802 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder10" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696, -0.418, -2.202 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder12" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.53756, -0.418368, 1.39806 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder13" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, 0.998 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder14" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.53756, -0.418368, 0.598 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder15" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, 0.198 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder16" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -0.202 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder17" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -0.602 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder18" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -1.002 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder19" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -1.402 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder20" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -1.802 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder21" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.537316, -0.418, -2.202 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder11" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.296, -0.418, -2.202 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGCylinder22" type="CSGCylinder" parent="House/attic/bannister/bars"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.104, -0.418, -2.202 )
-radius = 0.025
-material = ExtResource( 4 )
-
-[node name="CSGBox" type="CSGBox" parent="House/attic/bannister"]
-transform = Transform( 0.0694757, 0, 0, 0, 0.0665064, 0, 0, 0, 1.91358, -0.699794, 0.0389237, -0.354748 )
-use_collision = true
-material = ExtResource( 4 )
-
-[node name="CSGBox2" type="CSGBox" parent="House/attic/bannister"]
-transform = Transform( 0.0694757, 0, 0, 0, 0.0665064, 0, 0, 0, 1.91358, 0.532077, 0.0389237, -0.354748 )
-use_collision = true
-material = ExtResource( 4 )
-
-[node name="CSGBox3" type="CSGBox" parent="House/attic/bannister"]
-transform = Transform( 0.692, 0, 0, 0, 0.067, 0, 0, 0, 0.075, -0.0837641, 0.0389237, -2.20287 )
-use_collision = true
-material = ExtResource( 4 )
-
-[node name="floor" type="CSGBox" parent="House"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.903, -3.16364 )
-width = 11.1
-height = 0.1
-depth = 6.1
-material = ExtResource( 23 )
-
-[node name="CSGBox" type="CSGBox" parent="House/floor"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3.13433, -0.742813, -2.80005 )
-operation = 2
-width = 4.65
+[node name="closet" parent="House/Doors" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, -8.74228e-08, 0, 8.74228e-08, 1, 0.287704, 2.05762, -11.4697 )
+open_angle = -100.0
 
 [node name="Decor" type="Node" parent="."]
 
