@@ -1,0 +1,36 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path.s3tc="res://.import/Fabric043_2K_Normal.jpg-806c8ff4f5d5611cdf4f71ee3ed89d9d.s3tc.stex"
+path.etc2="res://.import/Fabric043_2K_Normal.jpg-806c8ff4f5d5611cdf4f71ee3ed89d9d.etc2.stex"
+metadata={
+"imported_formats": [ "s3tc", "etc2" ],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://Assets/Fabric043_2K-JPG/Fabric043_2K_Normal.jpg"
+dest_files=[ "res://.import/Fabric043_2K_Normal.jpg-806c8ff4f5d5611cdf4f71ee3ed89d9d.s3tc.stex", "res://.import/Fabric043_2K_Normal.jpg-806c8ff4f5d5611cdf4f71ee3ed89d9d.etc2.stex" ]
+
+[params]
+
+compress/mode=2
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=1
+flags/repeat=true
+flags/filter=true
+flags/mipmaps=true
+flags/anisotropic=false
+flags/srgb=2
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

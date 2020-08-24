@@ -4,24 +4,32 @@ const UI = preload("res://Scripts/UI.gd")
 
 export(NodePath) var ui_path
 export(NodePath) var sun_path
+export(Environment) var e:Environment
 
 var ui:UI
-var sun
+var sun:Spatial
 
-var time:float =0
-var time_mult=60
-var show_seconds=false
+var time:float = 0
+var time_mult = 86400/(60*5)
+var show_seconds = false
 
 
 func _ready():
 	ui = get_node(ui_path)
-	sun = get_node(sun_path)
-	set_time(16,55)
+	set_time(5,50)
+	sun=get_node(sun_path)
 
 
 func _process(delta):
 	time+=delta*time_mult
+	sun.rotation_degrees = Vector3(
+		sun.rotation_degrees.x,
+		sun.rotation_degrees.y,
+		time_to_lat(time))
+	e.adjustment_brightness=time_to_brightness(time)
 	ui.set_clock(time_string(time))
+	#ui.set_clock(time_to_brightness(time))
+	#ui.set_clock(time)
 
 func time_string(var f:float):
 	var s:String=""
@@ -38,3 +46,10 @@ func time_string(var f:float):
 
 func set_time(var hours:int, var minutes:int):
 	time=(hours*3600)+(minutes*60)
+	
+func time_to_lat(var t:float):
+	return fmod((t/86400)*360,360)
+
+func time_to_brightness(var t:float):
+	t+=86400/2
+	return (abs(fmod((t/86400*2),2)-1)*0.5)+0.8

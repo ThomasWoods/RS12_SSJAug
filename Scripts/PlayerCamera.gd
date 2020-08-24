@@ -59,9 +59,10 @@ func set_target(var t):
 	target = t as Spatial
 	if target!=null:
 		emit_signal("lock_camera")
-		look_at(target.translation,Vector3.UP)
+		var current_basis=transform.basis
+		look_at(target.global_transform.origin,Vector3.UP)
 		var target_basis = transform.basis
-		update_facing();
+		transform.basis = current_basis
 		tween.interpolate_property(self, "transform:basis",
 			transform.basis, target_basis, 1,
 			Tween.TRANS_LINEAR, Tween.EASE_IN)

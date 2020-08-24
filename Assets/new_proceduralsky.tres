@@ -1,0 +1,8 @@
+[gd_resource type="ProceduralSky" format=2]
+
+[resource]
+sun_color = Color( 1, 0.996078, 0.745098, 1 )
+sun_latitude = 10.0
+sun_longitude = -84.0
+sun_angle_max = 25.0
+texture_size = 0

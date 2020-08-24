@@ -34,6 +34,7 @@ collision_mask = 4
 
 [node name="flashlight" type="SpotLight" parent="PlayerBody/Camera"]
 transform = Transform( 0.999391, 0, 0.0348995, 0, 1, 0, -0.0348995, 0, 0.999391, 0.3, 0, 0 )
+visible = false
 spot_range = 15.0
 spot_angle = 15.0
 

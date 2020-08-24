@@ -1,14 +1,28 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/Interactable.gd" type="Script" id=1]
-[ext_resource path="res://KennyTextures/Vector/texture_08.svg" type="Texture" id=2]
-[ext_resource path="res://Materials/checkerboard.tres" type="Material" id=3]
+[ext_resource path="res://Materials/stairs_tex.tres" type="Material" id=2]
+[ext_resource path="res://Assets/WoodFloor040_2K-JPG/WoodFloor040_2K_AmbientOcclusion.jpg" type="Texture" id=3]
 [ext_resource path="res://Scripts/Door.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/Prefabs/Trim.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Materials/metal.tres" type="Material" id=6]
+[ext_resource path="res://Assets/WoodFloor040_2K-JPG/WoodFloor040_2K_Roughness.jpg" type="Texture" id=7]
+[ext_resource path="res://Assets/WoodFloor040_2K-JPG/WoodFloor040_2K_Color.jpg" type="Texture" id=8]
+[ext_resource path="res://Assets/WoodFloor040_2K-JPG/WoodFloor040_2K_Normal.jpg" type="Texture" id=9]
 
 [sub_resource type="SpatialMaterial" id=1]
-albedo_texture = ExtResource( 2 )
+albedo_texture = ExtResource( 8 )
+roughness_texture = ExtResource( 7 )
+normal_enabled = true
+normal_scale = 1.0
+normal_texture = ExtResource( 9 )
+ao_enabled = true
+ao_light_affect = 0.0
+ao_texture = ExtResource( 3 )
+ao_on_uv2 = false
+ao_texture_channel = 0
+uv1_scale = Vector3( 0.064, -0.43, 0.5 )
+uv1_offset = Vector3( 0.061, 0, 0 )
 
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 0.7, 1.05, 0.025 )
@@ -23,7 +37,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0, 0.075 )
 width = 1.45
 height = 2.15
 depth = 0.15
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 
 [node name="DoorCutout" type="CSGBox" parent="Doorframe"]
 operation = 2
@@ -31,7 +45,7 @@ use_collision = true
 width = 1.4
 height = 2.1
 depth = 0.2
-material = ExtResource( 3 )
+material = ExtResource( 2 )
 
 [node name="hinge" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0191887 )
