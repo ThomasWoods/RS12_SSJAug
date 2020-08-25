@@ -61,6 +61,13 @@ func _process(delta):
 	elif not holding_item and item_held!=null and Input.is_action_just_pressed("ui_end"):
 		pick_up_item(item_held)
 
+func find_and_run_event(var event_name:String):
+	var events = get_tree().get_root().find_node("Events",true,false)
+	var event=events.get_node(event_name).get_node("Area") as Event
+	if(event!=null):
+		run_event(event)
+	pass
+
 func run_event(var event:Event):
 	if in_event:
 		if last_event==event: return
@@ -88,7 +95,7 @@ func end_event():
 	if last_event.changed_camera(): 
 		player_cam.reset_camera()
 	else:
-		player_cam.free_look=true
+		player_cam.reset_camera_end()
 	ui.text_continue.visible=false
 	m("")
 	last_event.finish_event()

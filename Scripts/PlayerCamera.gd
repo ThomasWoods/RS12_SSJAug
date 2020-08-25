@@ -15,6 +15,9 @@ var y_deadzone=0.1
 var y_min=-1.4
 var y_max=1.3
 
+var focus_speed=1
+var return_speed=0.25
+
 signal lock_camera
 signal reset_camera_complete
 
@@ -64,7 +67,7 @@ func set_target(var t):
 		var target_basis = transform.basis
 		transform.basis = current_basis
 		tween.interpolate_property(self, "transform:basis",
-			transform.basis, target_basis, 1,
+			transform.basis, target_basis, focus_speed,
 			Tween.TRANS_LINEAR, Tween.EASE_IN)
 		tween.start()
 
@@ -72,7 +75,7 @@ func reset_camera():
 	target=null
 	free_look=false
 	tween.interpolate_property(self, "transform:basis",
-		transform.basis, Basis(Vector3(1,0,0),y), 1,
+		transform.basis, Basis(Vector3(1,0,0),y), return_speed,
 		Tween.TRANS_LINEAR, Tween.EASE_IN)
 	tween.start()
 	tween.connect("tween_all_completed", self, "reset_camera_end")
