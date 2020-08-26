@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=2]
+[gd_scene load_steps=64 format=2]
 
 [ext_resource path="res://Scripts/TimeKeeper.gd" type="Script" id=1]
 [ext_resource path="res://Materials/Window.tres" type="Material" id=2]
@@ -16,7 +16,7 @@
 [ext_resource path="res://KennyTextures/Vector/texture_01.svg" type="Texture" id=14]
 [ext_resource path="res://Scenes/Prefabs/StairCase.tscn" type="PackedScene" id=15]
 [ext_resource path="res://Scenes/Prefabs/Door.tscn" type="PackedScene" id=16]
-[ext_resource path="res://Assets/ghost test.png" type="Texture" id=17]
+[ext_resource path="res://Scenes/ghost.tscn" type="PackedScene" id=17]
 [ext_resource path="res://Scenes/Prefabs/Window.tscn" type="PackedScene" id=18]
 [ext_resource path="res://Materials/metal.tres" type="Material" id=19]
 [ext_resource path="res://Materials/black metal.tres" type="Material" id=20]
@@ -39,7 +39,6 @@
 [ext_resource path="res://Assets/Fabric037_2K-JPG/Fabric037_2K_Normal.jpg" type="Texture" id=37]
 [ext_resource path="res://Assets/Fabric037_2K-JPG/Fabric037_2K_Displacement.jpg" type="Texture" id=38]
 [ext_resource path="res://Assets/Fabric037_2K-JPG/Fabric037_2K_Color.jpg" type="Texture" id=39]
-[ext_resource path="res://Scripts/Ghost.gd" type="Script" id=40]
 [ext_resource path="res://Scenes/Prefabs/Tree.tscn" type="PackedScene" id=41]
 [ext_resource path="res://Materials/painted_wood_black.tres" type="Material" id=42]
 
@@ -1772,15 +1771,15 @@ material = ExtResource( 25 )
 operation = 2
 width = 2.5
 height = 3.5
-depth = 3.0
+depth = 2.9
 material = ExtResource( 25 )
 
-[node name="walkin_closet" type="CSGBox" parent="house/rooms/walkin_closet"]
+[node name="ground" type="CSGBox" parent="house/rooms/walkin_closet"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.74566, 0 )
 width = 2.5
 height = 0.01
 depth = 3.0
-material = ExtResource( 23 )
+material = ExtResource( 34 )
 
 [node name="closet_door_dut2" type="CSGBox" parent="house/rooms/walkin_closet"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.405358, -0.655129, 1.5201 )
@@ -1793,7 +1792,7 @@ material = ExtResource( 23 )
 [node name="closet_light2" type="OmniLight" parent="house/rooms/walkin_closet"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00662613, 1.48922, 0.107301 )
 light_color = Color( 1, 1, 0.886275, 1 )
-light_energy = 2.0
+light_negative = true
 light_specular = 0.1
 light_bake_mode = 0
 shadow_enabled = true
@@ -2098,8 +2097,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0277023, 0.0741625, 0.050489
 script = ExtResource( 13 )
 event_text = [ "Ugh, today is gonna be a scorcher, good thing I got that new AC unit installed.", "GHOST: HAHAHAHA! Sounds like a perfect time to do some all-day haunting!", "Oh no, the mischievious ghost who lives in my closet! Darn it, don't open those windows!" ]
 focus_targets = [ NodePath("../../../house/exterior/win_cut_bed"), NodePath("../../../house/Doors/closet"), NodePath("../../../house/exterior/win_cut_bed") ]
-event_calls = [ null, {
-NodePath("../../../ghost"): "start_haunt"
+event_calls = [ null, null, {
+NodePath("../../../ghost"): "move_towards_target"
+} ]
+late_event_calls = [ null, null, {
+NodePath("../../../ghost"): "start_haunt",
+NodePath("../../../TimeKeeper"): "unpause"
 } ]
 
 [node name="CollisionShape" type="CollisionShape" parent="Events/Intro/Area"]
@@ -2256,18 +2259,7 @@ radius = 0.5
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 radius = 0.5
 
-[node name="ghost" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3528, 1.83849, -12.6184 )
-script = ExtResource( 40 )
-targets = [ NodePath("../house/Doors/front_door"), NodePath("../house/Doors/bed_door"), NodePath("../house/Doors/bathdoor1"), NodePath("../house/Doors/bathdoor2"), NodePath("../house/Doors/closet"), NodePath("../house/Windows/win_kitchen_south"), NodePath("../house/Windows/win_kitchen_east"), NodePath("../house/Windows/win_great_south"), NodePath("../house/Windows/win_great_west"), NodePath("../house/Windows/win_util"), NodePath("../house/Windows/win_bath_1"), NodePath("../house/Windows/win_attic_south"), NodePath("../house/Windows/win_attic_north"), NodePath("../house/Windows/win_bed"), NodePath("../house/Windows/win_bath_2") ]
-first_target = NodePath("../house/Windows/win_bed")
-
-[node name="Sprite3D" type="Sprite3D" parent="ghost"]
-transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0 )
-opacity = 0.55
-billboard = 1
-texture = ExtResource( 17 )
-
-[node name="Tween" type="Tween" parent="ghost"]
-[connection signal="sun_down" from="TimeKeeper" to="ghost" method="_on_TimeKeeper_sun_down"]
+[node name="ghost" parent="." instance=ExtResource( 17 )]
+home = NodePath("../house/rooms/walkin_closet/walkin_closet2")
 [connection signal="sun_down" from="TimeKeeper" to="Player" method="find_and_run_event" binds= [ "Outro" ]]
+[connection signal="sun_down" from="TimeKeeper" to="ghost" method="_on_TimeKeeper_sun_down"]

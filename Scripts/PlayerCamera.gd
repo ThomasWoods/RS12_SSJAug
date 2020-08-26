@@ -18,17 +18,17 @@ var y_max=1.3
 var focus_speed=1
 var return_speed=0.25
 
+var first_event=true
+var last_press=false
+
 signal lock_camera
 signal reset_camera_complete
 
 func _ready():
 	tween=$Tween
-	self.mouseCaptured=true
 
 
 func _process(delta):
-	if(Input.is_action_just_pressed("ui_cancel")): 
-		self.mouseCaptured=!mouseCaptured
 	if free_look:
 		var joyDelta:=Vector2(Input.get_joy_axis(0,2),Input.get_joy_axis(0,3))
 		if abs(joyDelta.y)>y_deadzone:
@@ -37,6 +37,17 @@ func _process(delta):
 
 
 func _input(event):
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if first_event:
+		first_event=false
+	if event.is_action_pressed("ui_cancel") and !last_press: 
+		last_press=true
+		#if(!mouseCaptured): Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		#else: Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		mouseCaptured=!mouseCaptured
+	if event.is_action_released("ui_cancel"): 
+		last_press=false
 	if event is InputEventMouseMotion and free_look:
 		if(Input.get_mouse_mode()==Input.MOUSE_MODE_CAPTURED):
 			y-=event.relative.y*ySensitivity 
@@ -54,6 +65,7 @@ func setCameraMode(var value):
 	if(value): Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	else: Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	mouseCaptured=value
+
 func getCameraMode():
 	return mouseCaptured
 

@@ -9,6 +9,7 @@ export(Environment) var e:Environment
 var ui:UI
 var sun:Spatial
 
+var paused:bool = true
 var time:float = 0
 var time_mult = 86400/(60*5)
 var show_seconds = false
@@ -22,20 +23,23 @@ var sun_set=21
 
 func _ready():
 	ui = get_node(ui_path)
-	set_time(5,50)
+	set_time(6,0)
 	sun=get_node(sun_path)
+	update_world()
 
 
 func _process(delta):
+	if paused: return
 	time+=delta*time_mult
+	update_world()
+
+func update_world():
 	sun.rotation_degrees = Vector3(
 		sun.rotation_degrees.x,
 		sun.rotation_degrees.y,
 		time_to_lat(time))
 	e.adjustment_brightness=time_to_brightness(time)
 	ui.set_clock(time_string(time))
-	#ui.set_clock(time_to_brightness(time))
-	#ui.set_clock(time)
 	var day_time=fmod(time,86400)
 	if !sun_rise_sent and day_time>hour_min_to_sec(sun_rise,0) and day_time<hour_min_to_sec(12,0):
 		emit_signal("sun_rise")
@@ -71,3 +75,6 @@ func time_to_lat(var t:float):
 func time_to_brightness(var t:float):
 	t+=86400/2
 	return (abs(fmod((t/86400*2),2)-1)*0.5)+0.8
+
+func unpause():
+	paused=false

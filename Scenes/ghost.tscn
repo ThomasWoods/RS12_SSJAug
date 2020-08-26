@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/Ghost.gd" type="Script" id=1]
+[ext_resource path="res://Assets/ghost test.png" type="Texture" id=2]
+
+[node name="ghost" type="Spatial"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10.3528, 1.83849, -12.6184 )
+script = ExtResource( 1 )
+targets = [ NodePath("../house/Doors/front_door"), NodePath("../house/Doors/bed_door"), NodePath("../house/Doors/bathdoor1"), NodePath("../house/Doors/bathdoor2"), NodePath("../house/Doors/closet"), NodePath("../house/Windows/win_kitchen_south"), NodePath("../house/Windows/win_kitchen_east"), NodePath("../house/Windows/win_great_south"), NodePath("../house/Windows/win_great_west"), NodePath("../house/Windows/win_util"), NodePath("../house/Windows/win_bath_1"), NodePath("../house/Windows/win_attic_south"), NodePath("../house/Windows/win_attic_north"), NodePath("../house/Windows/win_bed"), NodePath("../house/Windows/win_bath_2") ]
+first_target = NodePath("../house/Windows/win_bed")
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0, 0 )
+opacity = 0.55
+billboard = 1
+texture = ExtResource( 2 )
+
+[node name="Tween" type="Tween" parent="."]

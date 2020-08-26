@@ -7,6 +7,7 @@ func m(var s): ui.set_text(s)
 export(Array, String) var event_text = ["page one", "page two"]
 export(Array, NodePath) var focus_targets = [null,null]
 export(Array) var event_calls = []
+export(Array) var late_event_calls = []
 export(float) var timer=0
 var elapsed_time:float = 0
 var fired:bool = false
@@ -27,22 +28,23 @@ func on_player_entered(var body:Node):
 		body.get_owner().call("run_event", self)
 
 func get_next_page():
+	run_event_calls(page-1, true)
 	if page<event_text.size():
 		var text = event_text[page]
-		run_event_calls()
+		run_event_calls(page)
 		return text
 	else:
 		return null
 
-func run_event_calls():
-	if event_calls.size()>page and event_calls[page]!=null:
-		var dict=event_calls[page] as Dictionary
+func run_event_calls(var p, var late:bool = false):
+	var array=event_calls
+	if late: array = late_event_calls
+	if p>=0 and array.size()>p and array[p]!=null:
+		var dict=array[p] as Dictionary
 		for key in dict:
 			var node=get_node(key)
 			if node!=null and node.has_method(dict[key]):
 				node.call(dict[key])
-				pass
-	pass
 
 func get_focus_target():
 	if page<focus_targets.size():

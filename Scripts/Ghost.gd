@@ -4,48 +4,46 @@ export(Array, NodePath) var targets
 export(NodePath) var first_target
 export(NodePath) var home
 var target:Spatial
+var haunting=false
 
-var speed=3
+var speed=3.75
+var speed_variance=0.5
 
 
 func _ready():
 	randomize()
-	pass
+	$Tween.connect("tween_all_completed", self, "on_reach_target")
+	target=get_node(first_target)
 
 func start_haunt():
-	yield(get_tree().create_timer(1.0), "timeout")
-	target=get_node(first_target)
-	move_towards_target()
-	pass
+	haunting=true
+	on_reach_target(7)
 
 func end_hunt():
+	haunting=false
 	var tween:Tween=$Tween
 	tween.stop_all()
-	target=get_node(first_target)
+	target=get_node(home)
 	move_towards_target()
 
-func on_reach_target():
+func on_reach_target(var i:int=-1):
+	if  haunting==false: 
+		return
 	if target.has_method("use"):
 		target.call("use")
-	var r = randi()%targets.size()
-	target=get_node(targets[r])
+	if i==-1 or i<0 or i>targets.size(): 
+		i = randi()%targets.size()
+	target=get_node(targets[i])
 	move_towards_target()
-	pass
 
 func move_towards_target():
 	var tween=$Tween
+	var distance = abs(transform.origin.distance_to(target.global_transform.origin))
+	var rand_speed=speed*(randf()*speed_variance-speed_variance/2)
 	tween.interpolate_property(self, "transform:origin",
-		transform.origin, target.global_transform.origin, speed,
+		transform.origin, target.global_transform.origin, (distance+0.15)/speed,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
-	tween.connect("tween_all_completed", self, "on_reach_target")
-	pass
-
-#func _process(delta):
-#	var target_global
-#	if(target!=null):
-#		transform.origin=transform.origin.move_toward(target.global_transform.origin, speed*delta)
-#	pass
 
 
 func _on_TimeKeeper_sun_down():
