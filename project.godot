@@ -17,7 +17,6 @@ _global_script_class_icons={
 
 config/name="RS12_SSJAugust_2020"
 run/main_scene="res://Scenes/StartScene.tscn"
-config/icon="res://Assets/icon.png"
 
 [display]
 

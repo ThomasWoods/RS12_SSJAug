@@ -32,7 +32,6 @@ func _ready():
 	player_cam.connect("lock_camera", ui, "show_camera_icon")
 	player_cam.connect("reset_camera_complete", ui, "hide_camera_icon")
 	active_camera=player_cam
-	get_viewport().audio_listener_enable_3d = true
 
 func _process(delta):
 	if Input.is_action_just_pressed("flashlight"):
@@ -49,7 +48,6 @@ func _process(delta):
 	elif holding_item and Input.is_action_just_pressed("ui_accept"):
 		drop_item()
 	elif not holding_item and reach_cast.is_colliding():
-		reach_cast
 		var reach_obj:Node = reach_cast.get_collider()
 		if reach_obj!=null:
 			m(reach_obj.name)

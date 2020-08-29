@@ -21,7 +21,7 @@ func _ready():
 
 func use(var close:bool=false):
 	var LowerPane=$LowerPane as Spatial
-	var tween=$Tween
+	tween=$Tween
 	
 	if is_locked and not close:
 		emit_signal("error_locked")

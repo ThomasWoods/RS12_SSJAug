@@ -21,6 +21,8 @@ var return_speed=0.25
 var first_event=true
 var last_press=false
 
+var connected=false
+
 signal lock_camera
 signal reset_camera_complete
 
@@ -37,6 +39,7 @@ func _process(delta):
 
 
 func _input(event):
+	get_viewport().audio_listener_enable_3d = true
 	if mouseCaptured: Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	else: Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	if first_event:
@@ -92,8 +95,11 @@ func reset_camera():
 		Tween.TRANS_LINEAR, Tween.EASE_IN)
 	tween.start()
 	tween.connect("tween_all_completed", self, "reset_camera_end")
+	connected=true
 
 func reset_camera_end():
 	free_look=true
-	tween.disconnect("tween_all_completed", self, "reset_camera_end")
+	if connected:
+		tween.disconnect("tween_all_completed", self, "reset_camera_end")
+		connected=false
 	emit_signal("reset_camera_complete")

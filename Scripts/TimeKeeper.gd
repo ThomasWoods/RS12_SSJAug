@@ -57,7 +57,7 @@ func time_string(var f:float):
 	var s:String=""
 	var hours:int = int(f/3600)%24
 	var minutes:int  = int(fmod(time,3600)/60)
-	var seconds:int = fmod(f,60)
+	var seconds:int = int(fmod(f,60))
 	var hours_string=String(hours) if hours>=10 else "0"+String(hours)
 	var minutes_string=String(minutes) if minutes>=10 else "0"+String(minutes)
 	var seconds_string=String(seconds) if seconds>=10 else "0"+String(seconds)

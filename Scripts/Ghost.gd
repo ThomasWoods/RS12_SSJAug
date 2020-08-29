@@ -40,7 +40,7 @@ func on_reach_target(var i:int=-1):
 
 func move_towards_target():
 	var distance = abs(transform.origin.distance_to(target.global_transform.origin))
-	var rand_speed=speed*(randf()*speed_variance-speed_variance/2)
+	#var rand_speed=speed*(randf()*speed_variance-speed_variance/2)
 	tween.interpolate_property(self, "transform:origin",
 		transform.origin, target.global_transform.origin, (distance+0.15)/speed,
 		Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
