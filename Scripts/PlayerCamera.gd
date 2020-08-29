@@ -37,14 +37,15 @@ func _process(delta):
 
 
 func _input(event):
-	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	if mouseCaptured: Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	else: Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	if first_event:
 		first_event=false
 	if event.is_action_pressed("ui_cancel") and !last_press: 
 		last_press=true
 		#if(!mouseCaptured): Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		#else: Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		mouseCaptured=!mouseCaptured
 	if event.is_action_released("ui_cancel"): 
 		last_press=false
@@ -62,8 +63,8 @@ func update_facing():
 
 
 func setCameraMode(var value):
-	if(value): Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	else: Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	#if(value): Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	#else: Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	mouseCaptured=value
 
 func getCameraMode():

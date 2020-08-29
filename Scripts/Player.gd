@@ -32,7 +32,7 @@ func _ready():
 	player_cam.connect("lock_camera", ui, "show_camera_icon")
 	player_cam.connect("reset_camera_complete", ui, "hide_camera_icon")
 	active_camera=player_cam
-	
+	get_viewport().audio_listener_enable_3d = true
 
 func _process(delta):
 	if Input.is_action_just_pressed("flashlight"):

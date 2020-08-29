@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Scripts/Interactable.gd" type="Script" id=1]
 [ext_resource path="res://Materials/stairs_tex.tres" type="Material" id=2]
@@ -9,6 +9,8 @@
 [ext_resource path="res://Assets/WoodFloor040_2K-JPG/WoodFloor040_2K_Roughness.jpg" type="Texture" id=7]
 [ext_resource path="res://Assets/WoodFloor040_2K-JPG/WoodFloor040_2K_Color.jpg" type="Texture" id=8]
 [ext_resource path="res://Assets/WoodFloor040_2K-JPG/WoodFloor040_2K_Normal.jpg" type="Texture" id=9]
+[ext_resource path="res://Assets/Audio/door_open.wav" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Audio/window_close.wav" type="AudioStream" id=11]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_texture = ExtResource( 8 )
@@ -27,8 +29,11 @@ uv1_offset = Vector3( 0.061, 0, 0 )
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 0.7, 1.05, 0.025 )
 
-[node name="Door1" type="Spatial"]
+[node name="Door" type="Spatial"]
 script = ExtResource( 4 )
+open_sound = ExtResource( 10 )
+close_sound = ExtResource( 11 )
+audio_stream_path = NodePath("hinge/Door/AudioStreamPlayer3D")
 
 [node name="Tween" type="Tween" parent="."]
 
@@ -68,6 +73,11 @@ script = ExtResource( 1 )
 [node name="CollisionShape" type="CollisionShape" parent="hinge/Door/KinematicBody"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0, 0.0410091 )
 shape = SubResource( 2 )
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="hinge/Door"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.665634, 0, -0.0338113 )
+stream = ExtResource( 10 )
+unit_size = 2.0
 
 [node name="ActualHinge" type="CSGCylinder" parent="hinge"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0 )

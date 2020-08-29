@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/Prefabs/Trim.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Materials/Window.tres" type="Material" id=2]
@@ -6,12 +6,17 @@
 [ext_resource path="res://Materials/stairs_tex.tres" type="Material" id=4]
 [ext_resource path="res://Scripts/Interactable.gd" type="Script" id=5]
 [ext_resource path="res://Scripts/Window.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Audio/window_close.wav" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Audio/window_open.wav" type="AudioStream" id=8]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.798789, 0.789294, 0.164516 )
 
 [node name="Window" type="Spatial"]
 script = ExtResource( 6 )
+open_sound = ExtResource( 8 )
+close_sound = ExtResource( 7 )
+audio_stream_path = NodePath("LowerPane/AudioStreamPlayer3D")
 
 [node name="LowerPane" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.03 )
@@ -56,6 +61,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0542104, -0.00121612 )
 radius = 0.025
 height = 0.01
 material = ExtResource( 3 )
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="LowerPane"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.320798, 0 )
 
 [node name="UpperPane" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, -0.03 )

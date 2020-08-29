@@ -21,6 +21,8 @@ signal sun_down
 var sun_down_sent=false
 var sun_set=21
 
+signal updated_time(time)
+
 func _ready():
 	ui = get_node(ui_path)
 	set_time(6,0)
@@ -31,6 +33,7 @@ func _ready():
 func _process(delta):
 	if paused: return
 	time+=delta*time_mult
+	emit_signal("updated_time", time)
 	update_world()
 
 func update_world():
