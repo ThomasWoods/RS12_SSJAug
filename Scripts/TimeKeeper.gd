@@ -1,4 +1,4 @@
-extends Node
+extends Spatial
 
 const UI = preload("res://Scripts/UI.gd")
 
@@ -23,6 +23,7 @@ var sun_set=21
 
 signal updated_time(time)
 
+
 func _ready():
 	ui = get_node(ui_path)
 	set_time(6,0)
@@ -31,6 +32,7 @@ func _ready():
 
 
 func _process(delta):
+	if Input.get_mouse_mode()!=Input.MOUSE_MODE_CAPTURED: return
 	if paused: return
 	time+=delta*time_mult
 	emit_signal("updated_time", time)
@@ -41,7 +43,8 @@ func update_world():
 		sun.rotation_degrees.x,
 		sun.rotation_degrees.y,
 		time_to_lat(time))
-	e.adjustment_brightness=time_to_brightness(time)
+	e.set_ambient_light_sky_contribution(time_to_brightness(time))
+	e.set_bg_energy(time_to_brightness(time))
 	ui.set_clock(time_string(time))
 	var day_time=fmod(time,86400)
 	if !sun_rise_sent and day_time>hour_min_to_sec(sun_rise,0) and day_time<hour_min_to_sec(12,0):
@@ -76,8 +79,9 @@ func time_to_lat(var t:float):
 	return fmod((t/86400)*360,360)
 
 func time_to_brightness(var t:float):
-	t+=86400/2
-	return (abs(fmod((t/86400*2),2)-1)*0.5)+0.8
+#	t+=86400/2
+#	return (abs(fmod((t/86400*2),2)-1)*0.5)+0.8
+	return (sin((fmod(time+3600*17.5,86400)/86400)*2*PI)+1)/2
 
 func unpause():
 	paused=false

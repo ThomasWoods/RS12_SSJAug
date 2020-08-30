@@ -20,6 +20,7 @@ var outdoor_indicator:Sprite
 var indoor_indicator:Sprite
 var temp_up_arrows=[]
 var temp_down_arrows=[]
+var ac_sound:AudioStreamPlayer3D
 
 var windows=[]
 var front_door:Door
@@ -28,6 +29,7 @@ var temp_change:float=0.0
 
 func _ready():
 	var timekeeper = get_tree().get_root().find_node("TimeKeeper",true,false)
+	ac_sound = get_tree().get_root().find_node("AC_Sound",true,false)
 	timekeeper.connect("updated_time", self, "set_temp")
 	thermometer=get_node(thermometer_path)
 	for n in temp_up_arrows_paths: 
@@ -48,16 +50,19 @@ func _ready():
 	var door_container = get_tree().get_root().find_node("Doors",true,false)
 	front_door=door_container.get_node("front_door")
 	windows=window_container.get_children()
-	pass
 
 
 func _process(delta):
+	if Input.get_mouse_mode()!=Input.MOUSE_MODE_CAPTURED: return
 	var last_in=temp_in
 	temp_in=lerp(temp_in,temp_out,0.1*(temp_stabilize_mult()/13.0)*delta)
 	if(temp_in>AC_temp): 
 		AC_on=true
+		ac_sound.playing=true
 		temp_in=lerp(temp_in, AC_temp, 0.1*(1-(temp_stabilize_mult()/13.0))*delta)
-	else: AC_on=false
+	else: 
+		ac_sound.playing=false
+		AC_on=false
 	var t = thermometer as Control
 	t.margin_top=(temp_in/100)*-47
 	temp_change=temp_in-last_in
@@ -75,10 +80,10 @@ func temp_stabilize_mult():
 	return windows_open+(front_door_open*2)
 
 func set_temp(var time:float):
-	time+=86400/3
-	temp_out= (abs(fmod((time/86400*2),2)-1)*75)+25
-#	time+=86400*0
-#	temp_out= sin((abs((fmod(time,86400)/86400)-1)*2)*PI)*75/2+55
+#	time+=86400/3
+#	temp_out= (abs(fmod((time/86400*2),2)-1)*75)+25
+	
+	temp_out= sin((fmod(time+3600*16.5,86400)/86400)*2*PI)*75/2+55
 
 func set_temp_change_arrows(var change):
 	for n in temp_up_arrows: n.set("visible",false)

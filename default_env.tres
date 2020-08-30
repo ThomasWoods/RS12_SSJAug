@@ -7,4 +7,3 @@ background_mode = 2
 background_sky = ExtResource( 1 )
 fog_enabled = true
 auto_exposure_scale = 2.46
-adjustment_enabled = true

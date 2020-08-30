@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Materials/metal.tres" type="Material" id=1]
+[ext_resource path="res://Materials/painted_wood_black.tres" type="Material" id=2]
+[ext_resource path="res://Scripts/timer_light.gd" type="Script" id=3]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.941176, 0.905882, 0, 1 )
+
+[node name="Lamp" type="Spatial"]
+
+[node name="pole" type="CSGCylinder" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+use_collision = true
+radius = 0.25
+height = 12.0
+material = ExtResource( 2 )
+
+[node name="arch" type="CSGTorus" parent="pole"]
+transform = Transform( -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0, 1, 0, 2.68949, 2.39355 )
+inner_radius = 2.65
+outer_radius = 3.05
+sides = 16
+ring_sides = 12
+material = ExtResource( 1 )
+
+[node name="CSGBox" type="CSGBox" parent="pole/arch"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.58172, 0, 0 )
+operation = 2
+width = 6.05967
+depth = 6.84127
+
+[node name="CSGSphere" type="CSGSphere" parent="pole/arch"]
+transform = Transform( -1.62921e-07, 0.5, 0, -1, -8.14603e-08, 0, 0, 0, 1.241, 1.43259, -0.000452045, 2.38809 )
+radius = 0.2
+material = SubResource( 1 )
+
+[node name="SpotLight" type="SpotLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 4.80455e-09, 1, 0, -1, 4.80455e-09, 0.000451812, 8.10219, 4.76206 )
+light_color = Color( 1, 0.976471, 0.623529, 1 )
+light_energy = 3.0
+spot_range = 12.0
+spot_angle = 60.0
+script = ExtResource( 3 )

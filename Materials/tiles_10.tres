@@ -23,3 +23,4 @@ depth_deep_parallax = false
 depth_flip_tangent = false
 depth_flip_binormal = false
 depth_texture = ExtResource( 5 )
+uv1_triplanar = true

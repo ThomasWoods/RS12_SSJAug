@@ -34,6 +34,7 @@ func _ready():
 	active_camera=player_cam
 
 func _process(delta):
+	if Input.get_mouse_mode()!=Input.MOUSE_MODE_CAPTURED: return
 	if Input.is_action_just_pressed("flashlight"):
 		var f = player_cam.get_node("flashlight") as SpotLight
 		f.visible=!f.visible
@@ -50,7 +51,8 @@ func _process(delta):
 	elif not holding_item and reach_cast.is_colliding():
 		var reach_obj:Node = reach_cast.get_collider()
 		if reach_obj!=null:
-			m(reach_obj.name)
+			#m(reach_obj.name)
+			#TODO: change pointer to hand here
 			if (Input.is_action_just_pressed("ui_accept")):
 				if(reach_obj.has_method("interact")): 
 					reach_obj.call("interact")
