@@ -2,7 +2,7 @@ created by me:
 ghost, blue/red arrows, thermometer, thermometer icons, event indicator, continue indicator, reticle, vignette
 window noises, door noises
 
-Textures
+Textures:
 asphalt, carpet, concrete, fabrics, painted wood, plaster, tiles, wood floor
 https://cc0textures.com/
 
@@ -14,3 +14,8 @@ Audio:
 Bone Yard Waltz by Wolfgang
 https://opengameart.org/content/skeleton-waltz-theme
 AC loop: https://freesound.org/people/raygrote/sounds/189987/
+
+Font:
+Special Elite 
+covered under Apache License Version 2.0, 
+https://fonts.google.com/specimen/Special+Elite

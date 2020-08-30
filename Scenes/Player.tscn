@@ -1,8 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/PlayerBody.gd" type="Script" id=1]
 [ext_resource path="res://Scripts/PlayerCamera.gd" type="Script" id=2]
 [ext_resource path="res://Scripts/Player.gd" type="Script" id=3]
+[ext_resource path="res://Assets/reticle.png" type="Texture" id=4]
+[ext_resource path="res://Assets/hand.png" type="Texture" id=5]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.4
@@ -13,6 +15,8 @@ albedo_color = Color( 0, 0, 0, 0.0784314 )
 
 [node name="Player" type="Spatial"]
 script = ExtResource( 3 )
+def_reticle = ExtResource( 4 )
+hand_reticle = ExtResource( 5 )
 
 [node name="PlayerBody" type="KinematicBody" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.887033, 0 )

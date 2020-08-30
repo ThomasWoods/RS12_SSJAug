@@ -1480,15 +1480,55 @@ transform = Transform( 0.0694757, 0, 0, 0, 0.0665064, 0, 0, 0, 1.91358, -0.66691
 use_collision = true
 material = ExtResource( 24 )
 
-[node name="CSGBox2" type="CSGBox" parent="house/rooms/attic/furiture/bannister"]
+[node name="near_left_pillar" type="CSGBox" parent="house/rooms/attic/furiture/bannister"]
+transform = Transform( 0.0694757, 0, 0, 0, 0.0665064, 0, 0, 0, 1.91358, -0.666911, -0.397372, 1.61668 )
+use_collision = true
+height = 15.3182
+depth = 0.0780913
+material = ExtResource( 24 )
+
+[node name="near_right_pillar" type="CSGBox" parent="house/rooms/attic/furiture/bannister"]
+transform = Transform( 0.0694757, 0, 0, 0, 0.0665064, 0, 0, 0, 1.91358, 0.500425, -0.397372, 1.61668 )
+use_collision = true
+height = 15.3182
+depth = 0.0780913
+material = ExtResource( 24 )
+
+[node name="far_left_pillar" type="CSGBox" parent="house/rooms/attic/furiture/bannister"]
+transform = Transform( 0.0694757, 0, 0, 0, 0.0665064, 0, 0, 0, 1.91358, -0.666911, -0.397372, -2.20541 )
+use_collision = true
+height = 15.3182
+depth = 0.0780913
+material = ExtResource( 24 )
+
+[node name="far_right_pillar" type="CSGBox" parent="house/rooms/attic/furiture/bannister"]
+transform = Transform( 0.0694757, 0, 0, 0, 0.0665064, 0, 0, 0, 1.91358, 0.500425, -0.397372, -2.20541 )
+use_collision = true
+height = 15.3182
+depth = 0.0780913
+material = ExtResource( 24 )
+
+[node name="right_railing" type="CSGBox" parent="house/rooms/attic/furiture/bannister"]
 transform = Transform( 0.0694757, 0, 0, 0, 0.0665064, 0, 0, 0, 1.91358, 0.499247, 0.0389237, -0.354748 )
 use_collision = true
 material = ExtResource( 24 )
 
-[node name="CSGBox3" type="CSGBox" parent="house/rooms/attic/furiture/bannister"]
+[node name="far_railing" type="CSGBox" parent="house/rooms/attic/furiture/bannister"]
 transform = Transform( 0.692, 0, 0, 0, 0.067, 0, 0, 0, 0.075, -0.0837641, 0.0389237, -2.20287 )
 use_collision = true
 material = ExtResource( 24 )
+
+[node name="Spatial" type="Spatial" parent="house/rooms/attic/furiture/bannister"]
+
+[node name="left_invisi_wall" type="CSGBox" parent="house/rooms/attic/furiture/bannister/Spatial"]
+transform = Transform( 0.069, 0, 0, 0, 2.393, 0, 0, 0, 1.914, -0.643415, -2.35155, -0.354748 )
+visible = false
+use_collision = true
+
+[node name="right_invisi_wall" type="CSGBox" parent="house/rooms/attic/furiture/bannister/Spatial"]
+transform = Transform( 0.069, 0, 0, 0, 0.599, 0, 0, 0, 1.914, 0.486803, -0.576108, -0.354748 )
+visible = false
+use_collision = true
 
 [node name="bedroom" type="CSGBox" parent="house/rooms"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.37277, 2.70044, -8.86601 )

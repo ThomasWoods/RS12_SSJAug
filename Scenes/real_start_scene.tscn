@@ -43,17 +43,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ColorRect2" type="ColorRect" parent="."]
-visible = false
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 252.0
-margin_bottom = 220.0
-color = Color( 0.764706, 0.764706, 0.764706, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="TextureRect" type="TextureRect" parent="."]
 margin_left = 130.0
 margin_top = -129.0
@@ -90,56 +79,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TextureRect3" type="TextureRect" parent="."]
-visible = false
-margin_right = 4.0
-margin_bottom = 224.0
-texture = SubResource( 6 )
-stretch_mode = 7
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect3" type="ColorRect" parent="."]
-visible = false
-margin_right = 256.0
-margin_bottom = 4.0
-color = Color( 0.486275, 0.486275, 0.486275, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect4" type="ColorRect" parent="."]
-visible = false
-margin_right = 4.0
-margin_bottom = 224.0
-color = Color( 0.486275, 0.486275, 0.486275, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect5" type="ColorRect" parent="."]
-visible = false
-margin_top = 220.0
-margin_right = 256.0
-margin_bottom = 224.0
-color = Color( 0.486275, 0.486275, 0.486275, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ColorRect6" type="ColorRect" parent="."]
-visible = false
-margin_left = 252.0
-margin_right = 256.0
-margin_bottom = 224.0
-color = Color( 0.486275, 0.486275, 0.486275, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="Sprite" type="Sprite" parent="."]
-modulate = Color( 0.517647, 0.988235, 1, 1 )
 self_modulate = Color( 1, 1, 1, 0.607843 )
 position = Vector2( 92.0067, 111.654 )
 scale = Vector2( -0.25, 0.25 )

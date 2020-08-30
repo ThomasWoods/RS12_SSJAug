@@ -126,6 +126,9 @@ margin_top = -3.99999
 margin_right = 4.0
 margin_bottom = 4.00001
 texture = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CameraLock" type="TextureRect" parent="."]
 visible = false

@@ -8,6 +8,7 @@ const UI = preload("res://Scripts/UI.gd")
 var player_body:PlayerBody
 var player_cam:PlayerCamera
 var ui:UI
+var reticle:TextureRect
 func m(var s): ui.set_text(s)
 var active_camera:Camera
 
@@ -19,6 +20,9 @@ var disabled_colliders = []
 var in_event:bool = false
 var last_event:Event = null
 
+export(Resource) var def_reticle
+export(Resource) var hand_reticle
+
 signal start_event
 signal end_event
 
@@ -28,6 +32,7 @@ func _ready():
 	player_cam=player_body.get_node("Camera")
 	reach_cast=player_cam.get_node("Reach")
 	ui = get_tree().get_root().find_node("UI",true,false)
+	reticle=ui.get_node("Reticle")
 	player_cam.connect("reset_camera_complete", player_body, "clear_camera_lock")
 	player_cam.connect("lock_camera", ui, "show_camera_icon")
 	player_cam.connect("reset_camera_complete", ui, "hide_camera_icon")
@@ -40,6 +45,7 @@ func _process(delta):
 		f.visible=!f.visible
 	if Input.is_action_just_pressed("ui_home"):
 		switch_camera()
+	reticle.set_texture(def_reticle)
 	if in_event: 
 		last_event.elapsed_time+=delta
 		if (Input.is_action_just_pressed("ui_accept") or 
@@ -53,6 +59,7 @@ func _process(delta):
 		if reach_obj!=null:
 			#m(reach_obj.name)
 			#TODO: change pointer to hand here
+			reticle.set_texture(hand_reticle)
 			if (Input.is_action_just_pressed("ui_accept")):
 				if(reach_obj.has_method("interact")): 
 					reach_obj.call("interact")
